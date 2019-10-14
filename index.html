@@ -318,7 +318,7 @@
 
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CCBUILDTAG=<span class="number">0</span></span><br><span class="line"><span class="comment">#include "CC_CommonConfig.xcconfig"</span></span><br></pre></td></tr></table></figure>
 
-<p>之后只需修改project - info里的configurations来区分线上、主干和分支。<br><img src="https://github.com/gwh111/bench_ios/blob/master/resources/WX20190830-181405@2x.png?raw=true" width="440"></p>
+<p>之后只需修改project - info里的configurations来区分线上、主干和分支。<br><img width="840px" src="https://github.com/gwh111/bench_ios/blob/master/resources/WX20190830-181405@2x.png?raw=true"></p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/<span class="regexp">/我们传入动态域名的地址来获取正确的配置域名：</span></span><br><span class="line"><span class="regexp">[ccs configureDomainWithReqGroupList:@[@[线上地址1,线上地址2...], @[主干地址1,主干地址2...], @[分支1地址1,分支1地址2...] ...] andKey:@"eh_doctor_api" cache:NO pingTest:YES block:^(HttpModel *result) &#123;</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/从result获取域名</span></span><br><span class="line"><span class="regexp">&#125;];</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="工具类使用方法"><a href="#工具类使用方法" class="headerlink" title="工具类使用方法"></a>工具类使用方法</h1><p>是一些常用方法的工具库。也是从 ccs 中获取。  </p>
