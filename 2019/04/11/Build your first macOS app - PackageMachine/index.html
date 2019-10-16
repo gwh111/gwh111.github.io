@@ -1,96 +1,275 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Less is more</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Build your first macOS app - PackageMachine Why build this app?Code:https://github.com/gwh111/testcocoappswift This tutorial is better for iOS developer to master build basic macOS app skills. Meanwhi">
+<meta name="keywords" content="macos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Build your first macOS app - PackageMachine">
+<meta property="og:url" content="http://www.gaowuhang.com/2019/04/11/Build your first macOS app - PackageMachine/index.html">
+<meta property="og:site_name" content="Less is more">
+<meta property="og:description" content="Build your first macOS app - PackageMachine Why build this app?Code:https://github.com/gwh111/testcocoappswift This tutorial is better for iOS developer to master build basic macOS app skills. Meanwhi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410183336155.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410183948964.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410191106557.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410191325487.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019041019265597.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410192813427.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411112009958.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411112148761.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411112415508.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411121218982.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411113342596.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411113528242.png">
+<meta property="og:updated_time" content="2019-10-16T06:21:01.071Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Build your first macOS app - PackageMachine">
+<meta name="twitter:description" content="Build your first macOS app - PackageMachine Why build this app?Code:https://github.com/gwh111/testcocoappswift This tutorial is better for iOS developer to master build basic macOS app skills. Meanwhi">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190410183336155.png">
+  <link rel="canonical" href="http://www.gaowuhang.com/2019/04/11/Build your first macOS app - PackageMachine/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Build your first macOS app - PackageMachine | Less is more</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
-<body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
 
-        </div>
-        <nav class="header-nav">
-            
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-            
-            <a href="/archives" class="header-nav-link">
-                归档
-            </a>
-            
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
 
-            
-            <a href="/tags" class="header-nav-link">
-                标签
-            </a>
-            
-
-            
-            <a href="/about/" class="header-nav-link">
-                关于
-            </a>
-            
-        </nav>
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Less is more</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">GaoWuhang's Blog</a>
-        </div>
+  </div>
 
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">Build your first macOS app - PackageMachine</h2>
-            <div class="post-meta">
-                <span class="post-time">2019-04-11</span>
-                
-                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-build-this-app"><span class="toc-text">Why build this app?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Build-the-app"><span class="toc-text">Build the app</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-project"><span class="toc-text">Create project</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Draw-views-in-Main-storyboard"><span class="toc-text">Draw views in Main.storyboard</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#State-IBOutlet"><span class="toc-text">State IBOutlet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Interaction-method"><span class="toc-text">Interaction method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Start（Run-shell-task）"><span class="toc-text">Start（Run shell task）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Monitor-task-output"><span class="toc-text">Monitor task output</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shell-script"><span class="toc-text">Shell script</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Learn-write-some-shell-script"><span class="toc-text">Learn write some shell script</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shell-script-in-package-machine"><span class="toc-text">shell script in package machine</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Read-and-Save"><span class="toc-text">Read and Save</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-store-documents-when-launch"><span class="toc-text">Create store documents when launch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Save-task"><span class="toc-text">Save task</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Read-task"><span class="toc-text">Read task</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Task-board"><span class="toc-text">Task board</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Auxiliary-function"><span class="toc-text">Auxiliary function</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#func-alt-altStr-String"><span class="toc-text">func alt(altStr:String)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#func-showNotice-str-String-suc-Bool"><span class="toc-text">func showNotice(str:String, suc:Bool)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IBAction-func-courseTapped-sender-Any"><span class="toc-text">@IBAction func courseTapped(_ sender: Any)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Tips"><span class="toc-text">Tips</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demonstration"><span class="toc-text">Demonstration</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Link"><span class="toc-text">Link</span></a></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
+  </div>
 </div>
-        <div class="post-content">
-            <p>Build your first macOS app - PackageMachine</p>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.gaowuhang.com/2019/04/11/Build your first macOS app - PackageMachine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GaoWuhang">
+      <meta itemprop="description" content="你的名字">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Less is more">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            Build your first macOS app - PackageMachine
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-11 10:04:54" itemprop="dateCreated datePublished" datetime="2019-04-11T10:04:54+08:00">2019-04-11</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-16 14:21:01" itemprop="dateModified" datetime="2019-10-16T14:21:01+08:00">2019-10-16</time>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Build your first macOS app - PackageMachine</p>
 <h1 id="Why-build-this-app"><a href="#Why-build-this-app" class="headerlink" title="Why build this app?"></a>Why build this app?</h1><p>Code:<a href="https://github.com/gwh111/testcocoappswift" target="_blank" rel="noopener">https://github.com/gwh111/testcocoappswift</a></p>
 <p>This tutorial is better for <strong>iOS developer</strong> to master build basic macOS app skills. Meanwhile, this app is also a useful tool for an iOS developer.</p>
 <p>We know how package with Xcode. We use archive so that we can export .ipa file. Before submit to AppStore, we often offer .ipa file to tester to do test. When you do several projects at same time, you are easily to make mistake or a bit of trouble to do this work. And PackageMachine is a macos app that can <strong><em>help you manage your projects and export .ipa file</em></strong> with one click.</p>
@@ -185,81 +364,212 @@
 <p>Then we get .ipa file. Also I append date to file name to tell different package file, otherwise it will overlap old file.<br><img src="https://img-blog.csdnimg.cn/20190411113528242.png" width="280"></p>
 <h1 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h1><p>You can get all codes in <a href="https://github.com/gwh111/testcocoappswift" target="_blank" rel="noopener">https://github.com/gwh111/testcocoappswift</a><br>I also add <strong><em>PackageMachine.dmg</em></strong> file for using directly.</p>
 
-        </div>
-        
-        <div class="post-tag">
-            
-            <a class="tag" href="/tags/macos/" title="macos">macos</a>
-            
-        </div>
-        
-    </article>
-</div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/2019/10/11/bench-ios/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">bench_ios</span>
-                <span class="nav-mobile">上一篇</span>
-            </a>
-        
-        
-            <a class="next" href="/2018/11/25/Privacy policy/">
-                <span class="nav-default">Privacy policy</span>
-                <span class="nav-mobile">下一篇</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
     </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/macos/" rel="tag"># macos</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/11/25/Privacy policy/" rel="next" title="Privacy policy">
+                  <i class="fa fa-chevron-left"></i> Privacy policy
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/11/bench-ios/" rel="prev" title="bench_ios">
+                  bench_ios <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Why-build-this-app"><span class="nav-number">1.</span> <span class="nav-text">Why build this app?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Build-the-app"><span class="nav-number">2.</span> <span class="nav-text">Build the app</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-project"><span class="nav-number">2.1.</span> <span class="nav-text">Create project</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Draw-views-in-Main-storyboard"><span class="nav-number">2.2.</span> <span class="nav-text">Draw views in Main.storyboard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#State-IBOutlet"><span class="nav-number">2.3.</span> <span class="nav-text">State IBOutlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Interaction-method"><span class="nav-number">2.4.</span> <span class="nav-text">Interaction method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start（Run-shell-task）"><span class="nav-number">2.5.</span> <span class="nav-text">Start（Run shell task）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Monitor-task-output"><span class="nav-number">2.6.</span> <span class="nav-text">Monitor task output</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shell-script"><span class="nav-number">3.</span> <span class="nav-text">Shell script</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Learn-write-some-shell-script"><span class="nav-number">3.1.</span> <span class="nav-text">Learn write some shell script</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-script-in-package-machine"><span class="nav-number">3.2.</span> <span class="nav-text">shell script in package machine</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Read-and-Save"><span class="nav-number">4.</span> <span class="nav-text">Read and Save</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-store-documents-when-launch"><span class="nav-number">4.1.</span> <span class="nav-text">Create store documents when launch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Save-task"><span class="nav-number">4.2.</span> <span class="nav-text">Save task</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-task"><span class="nav-number">4.3.</span> <span class="nav-text">Read task</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-board"><span class="nav-number">5.</span> <span class="nav-text">Task board</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auxiliary-function"><span class="nav-number">6.</span> <span class="nav-text">Auxiliary function</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#func-alt-altStr-String"><span class="nav-number">6.1.</span> <span class="nav-text">func alt(altStr:String)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#func-showNotice-str-String-suc-Bool"><span class="nav-number">6.2.</span> <span class="nav-text">func showNotice(str:String, suc:Bool)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IBAction-func-courseTapped-sender-Any"><span class="nav-number">6.3.</span> <span class="nav-text">@IBAction func courseTapped(_ sender: Any)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tips"><span class="nav-number">7.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demonstration"><span class="nav-number">8.</span> <span class="nav-text">Demonstration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Link"><span class="nav-number">9.</span> <span class="nav-text">Link</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">GaoWuhang</p>
+  <div class="site-description" itemprop="description">你的名字</div>
 </div>
-<footer class="footer-social">
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
     
-    <a class="social-link" target="_blank" href="https://github.com/gwh111">
-        <i class="iconfont icon-github"></i>
-    </a>
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
     
+  </nav>
+</div>
 
-    
 
-    
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2019
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">GaoWuhang</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
+      </div>
+
     </div>
-</footer>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoWuhang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">
+      
+    主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
-    var gitment = new Gitment({
-        id: 'Build your first macOS app - PackageMachine',
-        owner: 'gwh111',
-        repo: 'BlogDiscuss',
-        oauth: {
-            client_id: '17f5c4ab012abe0276b9',
-            client_secret: '05d29fb336d73a5d810843a167ad478c3e663358'
-        }
-    });
-    gitment.render('comment-container');
-    
-
-</script>
 </html>
