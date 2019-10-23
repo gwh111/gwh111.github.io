@@ -592,8 +592,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/11/软件设计的哲学/" rel="next" title="软件设计的哲学 （翻译 A Philosophy of Software Design）">
-                  <i class="fa fa-chevron-left"></i> 软件设计的哲学 （翻译 A Philosophy of Software Design）
+                <a href="/2019/10/11/软件设计的哲学/" rel="next" title="软件设计的哲学 （译 A Philosophy of Software Design）">
+                  <i class="fa fa-chevron-left"></i> 软件设计的哲学 （译 A Philosophy of Software Design）
                 </a>
               
             </div>
@@ -621,6 +621,9 @@
 
           </div>
           
+    
+    <div class="comments" id="gitalk-container"></div>
+  
 
         </div>
           
@@ -797,6 +800,25 @@
   
 
   
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '17f5c4ab012abe0276b9',
+      clientSecret: '05d29fb336d73a5d810843a167ad478c3e663358',
+      repo: 'BlogDiscuss',
+      owner: 'gwh111',
+      admin: ['gwh111'],
+      id: '9f89880cb98129aa3ed1a2cf03596bf8',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
 
 </body>
 </html>
