@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="bench_ios开发指南(http://www.wyaq.com/youxi/gonglue/11966_27.html) 以增加开发效率为目的集成bench_ios开发。bench_ios 不仅仅是它本身，还提供的是一种调度模式，可以根据自己业务需求接入不同模块来使用。详见 组件化分类使用方法。 模板使用参考XcodeCustom文件夹下README.md包括工程模板和类模板，模板只需添加一次">
+<meta name="keywords" content="bench_ios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bench_ios">
+<meta property="og:url" content="http://www.gaowuhang.com/2019/10/11/bench-ios/index.html">
+<meta property="og:site_name" content="Less is more">
+<meta property="og:description" content="bench_ios开发指南(http://www.wyaq.com/youxi/gonglue/11966_27.html) 以增加开发效率为目的集成bench_ios开发。bench_ios 不仅仅是它本身，还提供的是一种调度模式，可以根据自己业务需求接入不同模块来使用。详见 组件化分类使用方法。 模板使用参考XcodeCustom文件夹下README.md包括工程模板和类模板，模板只需添加一次">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/gwh111/bench_ios/blob/master/bench_ios/icon.png?raw=true">
+<meta property="og:image" content="https://github.com/gwh111/bench_ios/blob/master/resources/WX20190830-181405@2x.png?raw=true">
+<meta property="og:updated_time" content="2022-02-22T07:22:14.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="bench_ios">
+<meta name="twitter:description" content="bench_ios开发指南(http://www.wyaq.com/youxi/gonglue/11966_27.html) 以增加开发效率为目的集成bench_ios开发。bench_ios 不仅仅是它本身，还提供的是一种调度模式，可以根据自己业务需求接入不同模块来使用。详见 组件化分类使用方法。 模板使用参考XcodeCustom文件夹下README.md包括工程模板和类模板，模板只需添加一次">
+<meta name="twitter:image" content="https://github.com/gwh111/bench_ios/blob/master/bench_ios/icon.png?raw=true">
+  <link rel="canonical" href="http://www.gaowuhang.com/2019/10/11/bench-ios/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>bench_ios | Less is more</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Less is more</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.gaowuhang.com/2019/10/11/bench-ios/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GaoWuhang">
+      <meta itemprop="description" content="你的名字">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Less is more">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            bench_ios
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-11 14:51:36" itemprop="dateCreated datePublished" datetime="2019-10-11T14:51:36+08:00">2019-10-11</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-22 15:22:14" itemprop="dateModified" datetime="2022-02-22T15:22:14+08:00">2022-02-22</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="bench-ios开发指南"><a href="#bench-ios开发指南" class="headerlink" title="bench_ios开发指南"></a>bench_ios开发指南</h1><p><img width="128px" src="https://github.com/gwh111/bench_ios/blob/master/bench_ios/icon.png?raw=true">(<a href="http://www.wyaq.com/youxi/gonglue/11966_27.html" target="_blank" rel="noopener">http://www.wyaq.com/youxi/gonglue/11966_27.html</a>)</p>
+<p>以增加开发效率为目的集成bench_ios开发。<br>bench_ios 不仅仅是它本身，还提供的是一种调度模式，可以根据自己业务需求接入不同模块来使用。详见 <strong>组件化分类使用方法</strong>。</p>
+<h2 id="模板使用"><a href="#模板使用" class="headerlink" title="模板使用"></a>模板使用</h2><p>参考XcodeCustom文件夹下README.md<br>包括工程模板和类模板，模板只需添加一次，<strong>Xcode更新后需要重新添加</strong>。</p>
+<h3 id="Xcode-工程模板"><a href="#Xcode-工程模板" class="headerlink" title="Xcode 工程模板"></a>Xcode 工程模板</h3><p>模板文件在XcodeCustom文件夹下。<br>使用工程模板会初始化 CC_AppDelegate  CC_ViewController pch 文件。<br>/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/Project\ Templates/Base<br>目录下面添加bench_ios Application文件夹即可。</p>
+<ol>
+<li>打开Xcode选择 <strong><em>File - New - Project</em></strong></li>
+<li>滚到下面选择 bench_ios Application &gt; Custom Single App 创建一个新工程。</li>
+<li>在 targets &gt; Build Settings &gt; Prefix Header 添加 <strong>xxx</strong> 工程的pch的路径。<strong>$(SRCROOT)/xxx/xxx-prefix.pch</strong></li>
+<li>使用pod安装bench_ios。</li>
+</ol>
+<h3 id="Xcode-类模板"><a href="#Xcode-类模板" class="headerlink" title="Xcode 类模板"></a>Xcode 类模板</h3><p>类模板支持 CC_AppDelegate CC_ViewController CC_TabBarController<br>/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File\ Templates 目录下面添加bench_ios Class文件夹即可。<br>新建类使用 New File &gt; bench_ios Class &gt; Cocoa Touch Class</p>
+<h2 id="Podfile-安装"><a href="#Podfile-安装" class="headerlink" title="Podfile 安装"></a>Podfile 安装</h2><p>To integrate bench_ios into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">source <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br><span class="line">platform <span class="symbol">:ios</span>, <span class="string">'8.0'</span></span><br><span class="line"></span><br><span class="line">target <span class="string">'TargetName'</span> <span class="keyword">do</span></span><br><span class="line">pod <span class="string">'bench_ios'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>Then, run the following command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pod install</span><br></pre></td></tr></table></figure>
+
+<p>在.pch文件或需要的地方引入，如使用工程模板会自动引入。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> "ccs.h"</span><br></pre></td></tr></table></figure>
+
+<p>模式是核心，工具是基础的扩展</p>
+<h1 id="模式类使用方法"><a href="#模式类使用方法" class="headerlink" title="模式类使用方法"></a>模式类使用方法</h1><h2 id="ccs调度中心介绍"><a href="#ccs调度中心介绍" class="headerlink" title="ccs调度中心介绍"></a>ccs调度中心介绍</h2><p>通过ccs只用一种调用方式，获得bench_ios中所有功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 获取实例或执行函数</span><br><span class="line">ccs.xxx;</span><br><span class="line">// 调用类方法</span><br><span class="line">[ccs xxx];</span><br></pre></td></tr></table></figure>
+
+<p>ccs有最高调度权限，没有管理权限。管理由各个模块各自管理，分布式架构，ccs可以获取访问权限。<br>使用者只需按需调用上层，具体的实现不需要关心，如果需要添加未实现方法或者现有方法不能满足，可以联系维护bench小伙伴</p>
+<h2 id="AppDelegate使用方法"><a href="#AppDelegate使用方法" class="headerlink" title="AppDelegate使用方法"></a>AppDelegate使用方法</h2><p>修改main函数入口，如使用模板自动生成。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">UIApplicationMain</span>(argc, argv, <span class="literal">nil</span>, @<span class="string">"CC_AppDelegate"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新建AppDelegate继承CC_AppDelegate获得控制权限，CC_AppDelegate之后也会分发代理函数给子模块。如使用模板自动生成。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "CC_AppDelegate.h"</span><br><span class="line"></span><br><span class="line">@interface <span class="type">AppDelegate</span> : <span class="type">CC_AppDelegate</span></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "AppDelegate.h"</span><br><span class="line"></span><br><span class="line">@interface <span class="type">AppDelegate</span> ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">AppDelegate</span></span><br><span class="line"></span><br><span class="line">+ (void)load&#123;</span><br><span class="line">    [ccs registerAppDelegate:<span class="keyword">self</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_willInit &#123;</span><br><span class="line">    <span class="comment">// 配置函数 在此函数中添加初始化配置</span></span><br><span class="line">    [ccs configureAppStandard:@&#123;</span><br><span class="line">                                <span class="type">YL_SUBTITLE_FONT</span>  :<span class="type">RF</span>(<span class="number">13</span>),</span><br><span class="line">                                <span class="type">YL_SUBTITLE_COLOR</span> :<span class="type">UIColor</span>.whiteColor</span><br><span class="line">                                &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="type">CCLOG</span>(@<span class="string">"%@"</span>,<span class="type">APP_STANDARD</span>(<span class="type">YL_SUBTITLE_FONT</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//入口单页面</span></span><br><span class="line"><span class="comment">//    [self cc_initViewController:HomeVC.class withNavigationBarHidden:NO block:^&#123;</span></span><br><span class="line"><span class="comment">//        [self launch];</span></span><br><span class="line"><span class="comment">//    &#125;];</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//入口TabBar</span></span><br><span class="line">    [<span class="keyword">self</span> cc_initTabbarViewController:<span class="type">TestTabBarController</span>.<span class="keyword">class</span> block:^&#123;</span><br><span class="line">        [<span class="keyword">self</span> launch];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark life circle</span><br><span class="line">- (<span class="type">BOOL</span>)cc_application:(<span class="type">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="type">NSDictionary</span> *)launchOptions &#123;</span><br><span class="line">    <span class="comment">//当程序载入后执行，应用程序启动入口</span></span><br><span class="line">    <span class="keyword">return</span> <span class="type">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_applicationWillResignActive:(<span class="type">UIApplication</span> *)application &#123;</span><br><span class="line">      <span class="comment">//应用程序将要进入非活动状态，即将进入后台</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_applicationDidEnterBackground:(<span class="type">UIApplication</span> *)application &#123;</span><br><span class="line">     <span class="comment">//应用程序已经进入后台运行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_applicationWillEnterForeground:(<span class="type">UIApplication</span> *)application &#123;</span><br><span class="line">     <span class="comment">//应用程序将要进入活动状态，即将进入前台运行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_applicationDidBecomeActive:(<span class="type">UIApplication</span> *)application &#123;</span><br><span class="line">     <span class="comment">//应用程序已进入前台，处于活动状态</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_applicationWillTerminate:(<span class="type">UIApplication</span> *)application &#123;</span><br><span class="line">    <span class="comment">//应用程序将要退出，通常用于保存数据和一些退出前的清理工作</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<h2 id="TabBarController使用方法"><a href="#TabBarController使用方法" class="headerlink" title="TabBarController使用方法"></a>TabBarController使用方法</h2><p>可使用模板类创建。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "TestTabBarController.h"</span><br><span class="line">#<span class="keyword">import</span> "HomeVC.h"</span><br><span class="line">#<span class="keyword">import</span> "ccs.h"</span><br><span class="line"></span><br><span class="line">@interface <span class="type">TestTabBarController</span> ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">TestTabBarController</span></span><br><span class="line"></span><br><span class="line">- (void)cc_viewWillLoad &#123;</span><br><span class="line">    <span class="keyword">self</span>.view.backgroundColor = <span class="type">UIColor</span>.whiteColor;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 纯图片 tabbar</span></span><br><span class="line">    <span class="comment">//    [self cc_initWithClasses:@[HomeVC.class,UIViewController.class]</span></span><br><span class="line">    <span class="comment">//                      images:@[@"tabbar_mine_high",@"tabbar_mine_high"]</span></span><br><span class="line">    <span class="comment">//              selectedImages:@[@"tabbar_mine_high",@"tabbar_mine_high"]];</span></span><br><span class="line">    <span class="comment">// 图片 + 文字 tabbar</span></span><br><span class="line">    [<span class="keyword">self</span> cc_initWithClasses:@[<span class="type">HomeVC</span>.<span class="keyword">class</span>,<span class="type">UIViewController</span>.<span class="keyword">class</span>]</span><br><span class="line">                      titles:@[@<span class="string">"首页"</span>,@<span class="string">"首页"</span>]</span><br><span class="line">                      images:@[@<span class="string">"tabbar_mine_high"</span>,@<span class="string">"tabbar_mine_high"</span>]</span><br><span class="line">              selectedImages:@[@<span class="string">"tabbar_mine_high"</span>,@<span class="string">"tabbar_mine_high"</span>]</span><br><span class="line">                  titleColor:<span class="type">UIColor</span>.blackColor</span><br><span class="line">          selectedTitleColor:<span class="type">UIColor</span>.blueColor];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 动态添加item</span></span><br><span class="line">    <span class="comment">//    [self cc_addTabBarItemWithClass:UIViewController.class</span></span><br><span class="line">    <span class="comment">//                              image:@"tabbar_mine_high"</span></span><br><span class="line">    <span class="comment">//                      selectedImage:@"tabbar_mine_high"</span></span><br><span class="line">    <span class="comment">//                              index:2];</span></span><br><span class="line">    [<span class="keyword">self</span> cc_addTabBarItemWithClass:<span class="type">UIViewController</span>.<span class="keyword">class</span></span><br><span class="line">                              title:@<span class="string">"我的"</span></span><br><span class="line">                              image:@<span class="string">"tabbar_mine_high"</span></span><br><span class="line">                      selectedImage:@<span class="string">"tabbar_mine_high"</span></span><br><span class="line">                              index:<span class="number">2</span>];</span><br><span class="line">    <span class="comment">// 消息角标</span></span><br><span class="line">    [<span class="keyword">self</span> cc_updateBadgeNumber:<span class="number">200</span> atIndex:<span class="number">2</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CC-ViewController使用方法"><a href="#CC-ViewController使用方法" class="headerlink" title="CC_ViewController使用方法"></a>CC_ViewController使用方法</h2><ol>
+<li>使用 ViewController 继承 CC_ViewController。</li>
+<li>cc_displayView 进行自定义绘制。它的frame即可显示内容的区域。（如有状态栏，会去除状态栏的部分，如有导航栏，会去除导航栏的部分）</li>
+<li>针对 ViewController 业务复杂，存在ABC多个模块时，新建控制器继承 CC_Controller 委托代理进行业务拆分，模块共享。这个控制器也可放入其他 ViewController 使用。</li>
+</ol>
+<p>对比传统开发和模板开发：<br>原来模板新建 ViewController.h文件</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line"><span class="type">NS_ASSUME_NONNULL_BEGIN</span></span><br><span class="line"></span><br><span class="line">@interface <span class="type">TestViewController</span> : <span class="type">UIViewController</span></span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"><span class="type">NS_ASSUME_NONNULL_END</span></span><br></pre></td></tr></table></figure>
+
+<p>新模板新建 ViewController .h文件</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "CC_ViewController.h"</span><br><span class="line"></span><br><span class="line"><span class="type">NS_ASSUME_NONNULL_BEGIN</span></span><br><span class="line"></span><br><span class="line">@interface <span class="type">TestNewViewController</span> : <span class="type">CC_ViewController</span></span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"><span class="type">NS_ASSUME_NONNULL_END</span></span><br></pre></td></tr></table></figure>
+
+<p>原来模板新建 ViewController .m文件</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "TestViewController.h"</span><br><span class="line"></span><br><span class="line">@interface <span class="type">TestViewController</span> ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">TestViewController</span></span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#pragma mark - Navigation</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">// In a storyboard-based application, you will often want to do a little preparation before navigation</span></span><br><span class="line"><span class="comment">- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender &#123;</span></span><br><span class="line"><span class="comment">    // Get the new view controller using [segue destinationViewController].</span></span><br><span class="line"><span class="comment">    // Pass the selected object to the new view controller.</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>新模板新建 ViewController .m文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;TestNewViewController.h&quot;</span><br><span class="line"></span><br><span class="line">@interface TestNewViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation TestNewViewController</span><br><span class="line"></span><br><span class="line">- (void)cc_viewWillLoad &#123;</span><br><span class="line">    // Do any additional setup before loading the view.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_viewDidLoad &#123;</span><br><span class="line">    // Do any additional setup after loading the view.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>使用 cc_xxx 替换原先 UIViewController 的 xxx 方法。如 cc_viewDidLoad 代替 viewDidLoad 。</p>
+<p>设置标题：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)cc_viewWillLoad&#123;</span><br><span class="line">    <span class="keyword">self</span>.cc_title = @<span class="string">"首页"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据可选区域 cc_displayView 创建一个 tableview：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void)cc_viewDidLoad &#123;</span><br><span class="line">    ccs.<span class="type">TableView</span></span><br><span class="line">    .cc_addToView(<span class="keyword">self</span>)</span><br><span class="line">    .cc_frame(<span class="number">0</span>, <span class="number">0</span>, <span class="type">WIDTH</span>(), <span class="keyword">self</span>.cc_displayView.height)</span><br><span class="line">    .cc_delegate(<span class="keyword">self</span>)</span><br><span class="line">    .cc_dataSource(<span class="keyword">self</span>)</span><br><span class="line">    .cc_backgroundColor(<span class="type">UIColor</span>.whiteColor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 TestNewViewController 获取名为 abc 的视图：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CC_View</span> *view = [<span class="keyword">self</span> cc_viewWithName:@<span class="string">"abc"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>在 TestNewViewController 获取名为 Comment 的控制器C：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TestController</span> *controller = [<span class="keyword">self</span> cc_controllerWithName:@<span class="string">"Comment"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>自动适配方法会根据 cc_displayView 中最底部的控件来决定 cc_displayView 的 contentSize ，这样在小尺寸（如5c）的屏幕中你那个可以自动扩展成可以滑动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)cc_viewDidLoad &#123;</span><br><span class="line">    ...</span><br><span class="line">    [self cc_adaptUI];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Controller使用方法"><a href="#Controller使用方法" class="headerlink" title="Controller使用方法"></a>Controller使用方法</h2><p>需要拆分的模块继承 CC_Controller 实现自身代理。控制器初始化注册代理类，实现代理方法。<br>CC_Controller 通过start() 函数初始化，我们在 CC_Controller 中方便地提供了代理，通过代理分发回调到 CC_ViewController 来交互，传统方法需要声明代理，以及响应判断。<br>使用 CC_Controller 的模式解决了两个相似的 ViewController 的命名问题，使得控制器的维护更加方便。比如修改银行卡的 ViewController 和新增 ViewController 的相似度在90%，按照往常开发我们可能会创建一个 BankViewController 然后根据 type 区分是哪一个。使用子控制器的模式我们可以创建 AddBankViewController 和 EditBankViewController，然后在其注册 BankEditController，这样我们就可以在使用同一个功能模块的同时区分两个 ViewController。</p>
+<p>在 TestNewViewController 中注册控制器后可接收控制器中的代理：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)cc_viewWillLoad &#123;</span><br><span class="line">    <span class="comment">//  注册完可直接实现TestController里的协议'methd2withA:b:'</span></span><br><span class="line">    [<span class="keyword">self</span> cc_registerController:<span class="type">TestController</span>.<span class="keyword">class</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>声明协议原来要写的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 属性声明</span></span><br><span class="line">@property(nonatomic,assign) id &lt;<span class="type">CC_LabelGroupDelegate</span>&gt;delegate;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 代理</span></span><br><span class="line"><span class="keyword">if</span> ([<span class="keyword">self</span>.delegate respondsToSelector:@selector(labelGroup:initWithButton:)]) &#123;</span><br><span class="line">    [<span class="keyword">self</span>.delegate labelGroup:<span class="keyword">self</span> initWithButton:button];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>变成直接代理：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "CC_Foundation.h"</span><br><span class="line">#<span class="keyword">import</span> "ccs.h"</span><br><span class="line"></span><br><span class="line"><span class="type">NS_ASSUME_NONNULL_BEGIN</span></span><br><span class="line"></span><br><span class="line">@<span class="class"><span class="keyword">protocol</span> <span class="title">TestControllerDelegate</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">- (<span class="title">void</span>)<span class="title">methd2withA</span>:(<span class="title">NSString</span> *)<span class="title">a</span> <span class="title">b</span>:(<span class="title">NSArray</span> *)<span class="title">b</span>;</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">@<span class="title">end</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">@<span class="title">interface</span> <span class="title">TestController</span> : <span class="title">CC_Controller</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">@<span class="title">end</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">NS_ASSUME_NONNULL_END</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "TestController.h"</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">TestController</span></span><br><span class="line"></span><br><span class="line">- (void)cc_start &#123;</span><br><span class="line">    <span class="comment">// 初始化配置</span></span><br><span class="line">    <span class="keyword">self</span>.cc_name = @<span class="string">"test1"</span>;</span><br><span class="line">    [ccs delay:<span class="number">2</span> block:^&#123;</span><br><span class="line">        <span class="comment">// 初始化配置完成</span></span><br><span class="line">        [<span class="keyword">self</span>.cc_delegate cc_performSelector:@selector(methd2withA:b:) params:@<span class="string">""</span>,@<span class="string">""</span>];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>在对应的 CC_ViewController 中便可接收到此方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#<span class="keyword">import</span> "TestViewController.h"</span><br><span class="line">#<span class="keyword">import</span> "TestController.h"</span><br><span class="line">#<span class="keyword">import</span> "ccs.h"</span><br><span class="line"></span><br><span class="line">@interface <span class="type">TestViewController</span> ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation <span class="type">TestViewController</span></span><br><span class="line"></span><br><span class="line">- (void)methd2withA:(<span class="type">NSString</span> *)a b:(<span class="type">NSArray</span> *)b&#123;</span><br><span class="line">    <span class="comment">// TestController里的协议</span></span><br><span class="line">    <span class="type">CCLOG</span>(@<span class="string">"callback methd2withA"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_viewWillLoad &#123;</span><br><span class="line">    <span class="comment">//  注册完可直接实现TestController里的协议'methd2withA:b:'</span></span><br><span class="line">    [<span class="keyword">self</span> cc_registerController:<span class="type">TestController</span>.<span class="keyword">class</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)cc_viewDidLoad &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CC-NavigationController使用方法"><a href="#CC-NavigationController使用方法" class="headerlink" title="CC_NavigationController使用方法"></a>CC_NavigationController使用方法</h2><p>不需要自己管理navigationController，直接调用ccs的控制器进出方法。<br>进入控制器：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TestViewController2</span> *vc1 = [ccs <span class="keyword">init</span>:<span class="type">TestViewController2</span>.<span class="keyword">class</span>];</span><br><span class="line">vc1.tests1 = @<span class="string">""</span>;</span><br><span class="line">[ccs pushViewController:vc1];</span><br><span class="line"><span class="comment">// [ccs presentViewController:vc1];</span></span><br></pre></td></tr></table></figure>
+
+<p>进入带导航栏的控制器：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">InputViewController</span> *vc = [ccs <span class="keyword">init</span>:<span class="type">InputViewController</span>.<span class="keyword">class</span>];</span><br><span class="line">[ccs presentViewController:vc withNavigationControllerStyle:<span class="type">UIModalPresentationFullScreen</span>];</span><br></pre></td></tr></table></figure>
+
+<p>退出控制器：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ccs popViewController];</span><br><span class="line"><span class="comment">// [ccs dismissViewController];</span></span><br></pre></td></tr></table></figure>
+
+<p>控制器后退后发送消息到上一个控制器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ccs popViewControllerFrom:self userInfo:@&quot;abc&quot;];</span><br></pre></td></tr></table></figure>
+
+<p>在上一个控制器接收：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)cc_viewDidPopFrom:(CC_ViewController *)viewController userInfo:(id)userInfo &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="屏幕控制使用方法"><a href="#屏幕控制使用方法" class="headerlink" title="屏幕控制使用方法"></a>屏幕控制使用方法</h2><p>通过 ccs 手动控制当前控制器的屏幕方向</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)cc_viewWillDisappear &#123;</span><br><span class="line"></span><br><span class="line">    [ccs setDeviceOrientation:UIDeviceOrientationPortrait];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CC-Model-使用方法"><a href="#CC-Model-使用方法" class="headerlink" title="CC_Model 使用方法"></a>CC_Model 使用方法</h2><p>TestModel 继承 CC_Model 后声明属性。<br>将 json 赋值给 CC_Model：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TestModel</span> *modelObj = [ccs model:[<span class="type">TestModel</span> <span class="class"><span class="keyword">class</span>]];</span></span><br><span class="line"><span class="class">[<span class="title">modelObj</span> <span class="title">cc_setProperty</span>:@</span>&#123;@<span class="string">"str1"</span>:@<span class="string">"xin"</span>,@<span class="string">"str2"</span>:@<span class="string">"yi"</span>&#125;];</span><br><span class="line">[modelObj cc_update];</span><br><span class="line"></span><br><span class="line"><span class="comment">//replace Property name</span></span><br><span class="line">[modelObj cc_setProperty:@&#123;@<span class="string">"str1"</span>:@<span class="string">"xin"</span>,@<span class="string">"id"</span>:@<span class="string">"b"</span>&#125; modelKVDic:@&#123;@<span class="string">"str2"</span>:@<span class="string">"id"</span>&#125;];</span><br><span class="line">[modelObj cc_update];</span><br></pre></td></tr></table></figure>
+
+<p>通过 TestModel 中的 cc_update 函数做模型的个性化处理，如拼接字符串：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@implementation <span class="type">Test_model</span></span><br><span class="line"></span><br><span class="line">- (void)cc_update &#123;</span><br><span class="line">    <span class="type">CCLOG</span>(@<span class="string">"update Test_model key value %@"</span>,<span class="keyword">self</span>.cc_modelDic);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<h2 id="CC-UIKit使用方法"><a href="#CC-UIKit使用方法" class="headerlink" title="CC_UIKit使用方法"></a>CC_UIKit使用方法</h2><p>使用链式声明一个ui控件可减少变量名的出现。包含常用ui控件button、label、view、…</p>
+<h3 id="控件使用"><a href="#控件使用" class="headerlink" title="控件使用"></a>控件使用</h3><p>对比传统方法，创建一个label：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">UILabel</span> *label = [[<span class="type">UILabel</span> alloc] <span class="keyword">init</span>];</span><br><span class="line">label.text = @<span class="string">"mylabel"</span>;</span><br><span class="line">label.frame = <span class="type">CGRectMake</span>(<span class="type">RH</span>(<span class="number">10</span>),<span class="type">RH</span>(<span class="number">100</span>),<span class="type">RH</span>(<span class="number">100</span>),<span class="type">RH</span>(<span class="number">100</span>));</span><br><span class="line">label.backgroundColor = <span class="type">HEXA</span>(@<span class="string">"FFD700"</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>使用 CC_UIKit 中的CC_Label：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//省去变量名，通过链式返回对象扩展书写</span></span><br><span class="line">ccs.label</span><br><span class="line">.cc_name(@<span class="string">"mylabel"</span>)</span><br><span class="line">.cc_frame(<span class="type">RH</span>(<span class="number">10</span>),<span class="type">RH</span>(<span class="number">100</span>),<span class="type">RH</span>(<span class="number">100</span>),<span class="type">RH</span>(<span class="number">100</span>))</span><br><span class="line">.cc_backgroundColor(<span class="type">HEXA</span>(@<span class="string">"FFD700"</span>, <span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="CC-Alert"><a href="#CC-Alert" class="headerlink" title="CC_Alert"></a>CC_Alert</h3><p>系统弹窗快速调用：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (void)test_Alert &#123;</span><br><span class="line">    [ccs showAltOn:<span class="keyword">self</span> title:@<span class="string">"haha"</span> msg:@<span class="string">"你猜"</span> bts:@[@<span class="string">"取消"</span>,@<span class="string">"确定"</span>] block:^(int index, <span class="type">NSString</span> *name) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"showAlert index = %d btn name = %@"</span>,index,name);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [ccs showTextFieldAltOn:<span class="keyword">self</span> title:@<span class="string">"haha"</span> msg:@<span class="string">"你猜"</span> placeholder:@<span class="string">"猜不着"</span> bts:@[@<span class="string">"取消"</span>,@<span class="string">"确定"</span>,@<span class="string">"ok"</span>] block:^(int index, <span class="type">NSString</span> *name, <span class="type">NSString</span> *text) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"showTextFieldsAlert index = %d btn name = %@"</span>,index,name);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [ccs showTextFieldsAltOn:<span class="keyword">self</span> title:@<span class="string">"haha"</span> msg:@<span class="string">"你猜"</span> placeholders:@[@<span class="string">"猜"</span>,@<span class="string">"不"</span>,@<span class="string">"着"</span>] bts:@[@<span class="string">"取消"</span>,@<span class="string">"确定"</span>,@<span class="string">"ok"</span>] block:^(int index, <span class="type">NSString</span> *name, <span class="type">NSArray</span> *texts) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"showTextFieldsAlert index = %d btn name = %@ textFields text array = %@"</span>,index,name,texts);</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="app标准使用方法"><a href="#app标准使用方法" class="headerlink" title="app标准使用方法"></a>app标准使用方法</h3><p>通过配置一些app标准后可全局调用，默认属性有：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//App Font And Color Standard</span></span><br><span class="line">#define <span class="type">HEADLINE_FONT</span>     @<span class="string">"HEADLINE_FONT"</span></span><br><span class="line">#define <span class="type">HEADLINE_COLOR</span>    @<span class="string">"HEADLINE_COLOR"</span></span><br><span class="line">#define <span class="type">TITLE_FONT</span>        @<span class="string">"TITLE_FONT"</span></span><br><span class="line">#define <span class="type">TITLE_COLOR</span>       @<span class="string">"TITLE_COLOR"</span></span><br><span class="line">#define <span class="type">CONTENT_FONT</span>      @<span class="string">"CONTENT_FONT"</span></span><br><span class="line">#define <span class="type">CONTENT_COLOR</span>     @<span class="string">"CONTENT_COLOR"</span></span><br><span class="line">#define <span class="type">DATE_FONT</span>         @<span class="string">"DATE_FONT"</span></span><br><span class="line">#define <span class="type">DATE_COLOR</span>        @<span class="string">"DATE_COLOR"</span></span><br><span class="line">#define <span class="type">MASTER_COLOR</span>      @<span class="string">"MASTER_COLOR"</span></span><br><span class="line">#define <span class="type">AUXILIARY_COLOR</span>   @<span class="string">"AUXILIARY_COLOR"</span></span><br></pre></td></tr></table></figure>
+
+<p>也可自定义配置更多标准，如医疗项目：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#define <span class="type">YL_SUBTITLE_FONT</span>     @<span class="string">"YL_SUBTITLE_FONT"</span></span><br><span class="line">#define <span class="type">YL_SUBTITLE_COLOR</span>    @<span class="string">"YL_SUBTITLE_COLOR"</span></span><br><span class="line"></span><br><span class="line">[ccs configureAppStandard:@&#123;</span><br><span class="line">                            <span class="type">YL_SUBTITLE_FONT</span>  :<span class="type">RF</span>(<span class="number">13</span>),</span><br><span class="line">                            <span class="type">YL_SUBTITLE_COLOR</span> :<span class="type">UIColor</span>.whiteColor</span><br><span class="line">                            &#125;];</span><br><span class="line"></span><br><span class="line"><span class="type">CCLOG</span>(@<span class="string">"%@"</span>,<span class="type">APP_STANDARD</span>(<span class="type">YL_SUBTITLE_FONT</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="自动适配使用方法"><a href="#自动适配使用方法" class="headerlink" title="自动适配使用方法"></a>自动适配使用方法</h3><p>包含布局和字号：<br>所有布局的数字包一层RH()函数（Relative Height），如 CGRectMake(0, 0, RH(200), RH(40)</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float x = <span class="type">RH</span>(<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+
+<p>字号使用RF()函数（Relative Font）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">UIFont</span> *font = <span class="type">RF</span>(<span class="number">14</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="textBind使用方法"><a href="#textBind使用方法" class="headerlink" title="textBind使用方法"></a>textBind使用方法</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//数据和视图绑定</span></span><br><span class="line"><span class="comment">// 绑定string</span></span><br><span class="line"><span class="type">NSString</span> *str = [ccs string:@<span class="string">"abc%@%d"</span>,@<span class="string">"a"</span>,<span class="number">34</span>];</span><br><span class="line"><span class="comment">// 方法三</span></span><br><span class="line">ccs.label</span><br><span class="line">.cc_name(@<span class="string">"mylabel"</span>)</span><br><span class="line">.cc_frame(<span class="type">RH</span>(<span class="number">10</span>),<span class="type">RH</span>(<span class="number">100</span>),<span class="type">RH</span>(<span class="number">100</span>),<span class="type">RH</span>(<span class="number">100</span>))</span><br><span class="line">.cc_backgroundColor(<span class="type">HEXA</span>(@<span class="string">"FFD700"</span>, <span class="number">1</span>))</span><br><span class="line">.cc_textColor(<span class="type">HEXA</span>(@<span class="string">"9B30FF"</span>, <span class="number">1</span>))</span><br><span class="line">.cc_bindText(str)</span><br><span class="line">.cc_addToView(<span class="keyword">self</span>)</span><br><span class="line">.cc_tappedInterval(<span class="number">0.1</span>,^(id view) &#123;</span><br><span class="line">    <span class="comment">// 改变labele内的富文本</span></span><br><span class="line">    <span class="type">NSMutableAttributedString</span> *att = [ccs mutAttributedString];</span><br><span class="line">    [att cc_appendAttStr:@<span class="string">"abc"</span> color:<span class="type">COLOR_LIGHT_ORANGE</span>];</span><br><span class="line">    [att cc_appendAttStr:@<span class="string">"123"</span> color:[<span class="type">UIColor</span> greenColor] font:<span class="type">RF</span>(<span class="number">22</span>)];</span><br><span class="line">    <span class="type">CC_Label</span> *v = view;</span><br><span class="line">    v.attributedText = att;</span><br><span class="line">    <span class="comment">// 延时5秒后退出控制器</span></span><br><span class="line">    [ccs delay:<span class="number">5</span> block:^&#123;</span><br><span class="line">        [ccs popViewController];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3秒后更新string view跟踪变化</span></span><br><span class="line">[ccs delay:<span class="number">3</span> block:^&#123;</span><br><span class="line">    <span class="comment">// 无需获取控件，更新数据源自动更新视图控件</span></span><br><span class="line">    [str cc_update:@<span class="string">"cvb"</span>];</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>如果我们在控制器的另一个函数中要获取控件对象，我们可以声明它为全局变量或者属性：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@interface <span class="type">TestViewController</span> () &#123;</span><br><span class="line">    <span class="type">UILabel</span> *label;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>或者使用viewWithTag()来取对象，但用tag会很不方便，如果要直观还需将tag声明成static，所以我们提供了viewWithName()的函数来取对象：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)funtionB &#123;</span><br><span class="line">    id v = [<span class="keyword">self</span> cc_viewWithName:@<span class="string">"abc"</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="单例使用方法"><a href="#单例使用方法" class="headerlink" title="单例使用方法"></a>单例使用方法</h2><p>将单例注册到ccs中即可：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)shared &#123;</span><br><span class="line">    <span class="keyword">return</span> [ccs registerSharedInstance:<span class="keyword">self</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>包含一个返回block，可配置初始化变量，这个block只会走一次：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)shared &#123;</span><br><span class="line">    <span class="keyword">return</span> [ccs registerSharedInstance:<span class="keyword">self</span> block:^&#123;</span><br><span class="line">        <span class="comment">//do something init</span></span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="共享数据使用方法"><a href="#共享数据使用方法" class="headerlink" title="共享数据使用方法"></a>共享数据使用方法</h2><p>共享全局的对象，比如在控制器B更新控制器A的 model 。<br>设置共享参数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ccs setShared:@<span class="string">"name"</span> obj:@<span class="string">"xinyi"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>获取共享参数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSString</span> *name = [ccs sharedValueForKey:@<span class="string">"name"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>更新共享参数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ccs resetShared:@<span class="string">"name"</span> obj:@<span class="string">"apple"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>移除共享参数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ccs removeShared:@<span class="string">"name"</span>];</span><br></pre></td></tr></table></figure>
+
+<h2 id="多线程使用方法"><a href="#多线程使用方法" class="headerlink" title="多线程使用方法"></a>多线程使用方法</h2><p>进入子线程：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs gotoThread:^&#123;</span><br><span class="line">        <span class="comment">// do something in thread.</span></span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+
+<p>进入主线程：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs gotoMain:^&#123;</span><br><span class="line">        <span class="comment">// do something in main.</span></span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+
+<p>延时执行：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs delay:<span class="number">3</span> block:^&#123;</span><br><span class="line">        <span class="comment">// do something after 3s.</span></span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+
+<p>可取消的名为 notice 的延时执行：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs delay:<span class="number">3</span> key:@<span class="string">"notice"</span> block:^&#123;</span><br><span class="line"></span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+
+<p>取消名为 notice 的延时，在延时完成前取消才有效，如延时是3秒需在3秒前调用停止就不会执行block中的函数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ccs delayStop:@<span class="string">"notice"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>一组异步任务 在多个线程执行。如3个异步任务，在3个线程同时执行：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CCLOG</span>(@<span class="string">"cc_group %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">[ccs threadGroup:<span class="number">3</span> block:^(<span class="type">NSUInteger</span> taskIndex, <span class="type">BOOL</span> finish) &#123;</span><br><span class="line">    <span class="keyword">if</span> (taskIndex == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_group 0 finish %d %@"</span>,finish,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (taskIndex == <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_group 1 finish %d %@"</span>,finish,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (taskIndex == <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_group 2 finish %d %@"</span>,finish,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_group 3 finish %d %@"</span>,finish,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>异步完成一组有异步回调的函数后执行下一个函数。如在两个线程同时执行两个任务后再去执行下一个任务：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CCLOG</span>(@<span class="string">"cc_blockGroup %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">[ccs threadBlockGroup:<span class="number">2</span> block:^(<span class="type">NSUInteger</span> taskIndex, <span class="type">BOOL</span> finish, id sema) &#123;</span><br><span class="line">    <span class="keyword">if</span> (taskIndex == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_blockGroup 0 %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">        [ccs delay:<span class="number">10</span> block:^&#123;</span><br><span class="line">            [ccs threadBlockFinish:sema];</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (taskIndex == <span class="number">1</span>)&#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_blockGroup 1 %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">        [ccs delay:<span class="number">2</span> block:^&#123;</span><br><span class="line">            [ccs threadBlockFinish:sema];</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (finish) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_blockGroup finish %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>顺序执行一组有异步回调的函数后执行下一个函数。如顺序执行任务1和任务2后再执行下一个任务：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CCLOG</span>(@<span class="string">"cc_blockSequence %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">[ccs threadBlockSequence:<span class="number">2</span> block:^(<span class="type">NSUInteger</span> taskIndex, <span class="type">BOOL</span> finish, id  _Nonnull sema) &#123;</span><br><span class="line">    <span class="keyword">if</span> (taskIndex == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_blockSequence 0 %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">        [ccs delay:<span class="number">5</span> block:^&#123;</span><br><span class="line">            [ccs threadBlockFinish:sema];;</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (taskIndex == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_blockSequence 1 %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">        [ccs delay:<span class="number">2</span> block:^&#123;</span><br><span class="line">            [ccs threadBlockFinish:sema];;</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (finish) &#123;</span><br><span class="line">        <span class="type">CCLOG</span>(@<span class="string">"cc_blockSequence finish %@"</span>,[<span class="type">NSThread</span> currentThread]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="定时器使用方法"><a href="#定时器使用方法" class="headerlink" title="定时器使用方法"></a>定时器使用方法</h2><p>获取当前时间戳：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSTimeInterval</span> *t = [ccs nowTimeTimestamp];</span><br></pre></td></tr></table></figure>
+
+<p>获取当前唯一时间戳，比如并发在两个子线程获取也会返回不一样的时间戳：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSTimeInterval</span> *t = [ccs uniqueNowTimestamp];</span><br></pre></td></tr></table></figure>
+
+<p>注册一个定时任务：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs timerRegister:@<span class="string">"testTimer1"</span> interval:<span class="number">1</span> block:^&#123;</span><br><span class="line">    <span class="type">CCLOG</span>(@<span class="string">"CoreTimer block 1 "</span>);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>取消一个定时任务：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ccs timerCancel:@<span class="string">"testTimer2"</span>];</span><br></pre></td></tr></table></figure>
+
+<h2 id="组件化生命周期分发使用方法"><a href="#组件化生命周期分发使用方法" class="headerlink" title="组件化生命周期分发使用方法"></a>组件化生命周期分发使用方法</h2><p>App 生命周期的分发，将耦合在 AppDelegate 中逻辑拆分，每个模块以微应用的形式独立存在。一个工程就会有多个 AppDelegate 存在，包括主工程 AppDelegate 以及部分组件库中的 AppDelegate 。<br>执行步骤：</p>
+<ol>
+<li>需要所有组件库依赖 bench_ios 。</li>
+<li>在组件库内创建一个 module_delegate 继承 CC_AppDelegate 。</li>
+<li>用pod集成组件后 module_delegate 就会像传统 AppDelegate 一样工作。</li>
+</ol>
+<h2 id="组件化分类使用方法"><a href="#组件化分类使用方法" class="headerlink" title="组件化分类使用方法"></a>组件化分类使用方法</h2><p>通过 bench_ios 中的 cc_message 发送消息来调用组件化模块。因为没有 include 或者 import 组件化库，不会参与链接过程，会在运行时调用组件库。<br>执行步骤：</p>
+<ol>
+<li><p>需要所有组件库依赖 bench_ios 。</p>
+</li>
+<li><p>创建一个 ccs 的分类。如推送组件创建 ccs+APNs.h 和 ccs+APNs.m 。</p>
+</li>
+<li><p>在分类的h文件声明API：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (void)<span class="type">APNs_updateTokenToServerWithDomainUrl</span>:(<span class="type">NSURL</span> *)domainUrl authedUserId:(<span class="type">NSString</span> *)authedUserId pushMessageBlock:(void(^)(<span class="type">NSDictionary</span> *messageDic, <span class="type">BOOL</span> lanchFromRemote))pushMessageBlock;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在m文件声明实现。在m文件的实现使用 cc_message 发送库的调用消息：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+ (void)<span class="type">APNs_updateTokenToServerWithDomainUrl</span>:(<span class="type">NSURL</span> *)domainUrl authedUserId:(<span class="type">NSString</span> *)authedUserId pushMessageBlock:(void(^)(<span class="type">NSDictionary</span> *messageDic, <span class="type">BOOL</span> lanchFromRemote))pushMessageBlock &#123;</span><br><span class="line">    [cc_message cc_targetAppDelegate:@<span class="string">"AppDelegate_APNs"</span> method:@<span class="string">"updateTokenToServerWithDomainUrl:authedUserId:pushMessageBlock:"</span> block:^(<span class="type">BOOL</span> success) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!success) &#123;</span><br><span class="line">            <span class="type">CCLOGAssert</span>(@<span class="string">"you need add pod 'bench_ios_APNs' in podfile."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; params:domainUrl,authedUserId,pushMessageBlock];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在项目中使用，使用pod安装APNs库，导入头文件：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在pch或指定位置导入组件化分类</span></span><br><span class="line">#<span class="keyword">import</span> "ccs+APNs.h"</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>调用：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 组件化方法 调用推送库</span></span><br><span class="line">[ccs <span class="type">APNs_updateTokenToServerWithDomainUrl</span>:[<span class="type">NSURL</span> <span class="type">URLWithString</span>:@<span class="string">"http://xxx.com"</span>] authedUserId:@<span class="string">"123456"</span> pushMessageBlock:^(<span class="type">NSDictionary</span> * _Nonnull messageDic, <span class="type">BOOL</span> lanchFromRemote) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h2 id="config使用方法"><a href="#config使用方法" class="headerlink" title="config使用方法"></a>config使用方法</h2><p>使用动态域名方案。 动态域名方案-将服务接口请求地址集合放在一个json文件里，上传到阿里云或者服务器，app拿到这个文件再获取域名，可以用于域名修改要发包的情况。<br>新建一个CC_CommonConfig.xcconfig文件，在里面写上：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">GCC_PREPROCESSOR_DEFINITIONS</span> = $(inherited) <span class="type">CCBUILDTAG</span>='$(<span class="type">CCBUILDTAG</span>)'</span><br></pre></td></tr></table></figure>
+
+<p>新建发布：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">（<span class="type">CC_ReleaseConfig</span>.xcconfig）、 主干（<span class="type">CC_TrunkConfig</span>.xcconfig）、分支<span class="number">1</span>（<span class="type">CC_Branch1Config</span>.xcconfig）等.xcconfig文件，在里面写上tag值和导入'<span class="type">CC_CommonConfig</span>.xcconfig'文件，release=<span class="number">0</span>，trunk=<span class="number">1</span>，branch1=<span class="number">2</span> ...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CCBUILDTAG</span>=<span class="number">0</span></span><br><span class="line">#include <span class="string">"CC_CommonConfig.xcconfig"</span></span><br></pre></td></tr></table></figure>
+
+<p>之后只需修改project - info里的configurations来区分线上、主干和分支。<br><img width="840px" src="https://github.com/gwh111/bench_ios/blob/master/resources/WX20190830-181405@2x.png?raw=true"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我们传入动态域名的地址来获取正确的配置域名：</span></span><br><span class="line">[ccs configureDomainWithReqGroupList:@[@[线上地址<span class="number">1</span>,线上地址<span class="number">2</span>...], @[主干地址<span class="number">1</span>,主干地址<span class="number">2</span>...], @[分支<span class="number">1</span>地址<span class="number">1</span>,分支<span class="number">1</span>地址<span class="number">2</span>...] ...] andKey:@<span class="string">"eh_doctor_api"</span> cache:<span class="type">NO</span> pingTest:<span class="type">YES</span> block:^(<span class="type">HttpModel</span> *result) &#123;</span><br><span class="line">    <span class="comment">//从result获取域名</span></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h1 id="工具类使用方法"><a href="#工具类使用方法" class="headerlink" title="工具类使用方法"></a>工具类使用方法</h1><p>是一些常用方法的工具库。也是从 ccs 中获取。</p>
+<h2 id="CC-Monitor使用方法"><a href="#CC-Monitor使用方法" class="headerlink" title="CC_Monitor使用方法"></a>CC_Monitor使用方法</h2><p>目前CC_Monitor的几大功能是：</p>
+<ol>
+<li>监控app本身和组件的生命周期（包括耗时和内存）。</li>
+<li>监控app运行时的异常（包括耗时、内存和异常）。</li>
+</ol>
+<p>打开监控和监控日志：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ccs openLaunchMonitor:<span class="type">YES</span>];</span><br><span class="line">[ccs openLaunchMonitorLog:<span class="type">YES</span>];</span><br></pre></td></tr></table></figure>
+
+<p>打开日志后会在启动时打印app和各组件启动耗时情况和内存使用情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2019-10-10 17:59:10.890059+0800 CatPhotoPicker[16705:372162] -[CC_Monitor reviewLaunchFinish] [Line 128]</span><br><span class="line">&#123;</span><br><span class="line">    AppDelegate =     &#123;</span><br><span class="line">        &quot;execution time-consuming&quot; =         &#123;</span><br><span class="line">            &quot;cc_application:didFinishLaunchingWithOptions:&quot; = &quot;0.0001050233840942383&quot;;</span><br><span class="line">            &quot;cc_willInit&quot; = &quot;0.01480793952941895&quot;;</span><br><span class="line">        &#125;;</span><br><span class="line">        &quot;malloc_size&quot; = 32;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打开app运行定期检查监控和日志：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ccs openPatrolMonitor:<span class="type">YES</span>];</span><br><span class="line">[ccs openPatrolMonitorLog:<span class="type">YES</span>];</span><br></pre></td></tr></table></figure>
+
+<p>打开后如注册的实例在某段时间段过大会打印相关日志。</p>
+<h2 id="网络请求使用方法"><a href="#网络请求使用方法" class="headerlink" title="网络请求使用方法"></a>网络请求使用方法</h2><p>通过 ccs.httpTask 来实现网络相关的任务。</p>
+<h3 id="http请求使用方法"><a href="#http请求使用方法" class="headerlink" title="http请求使用方法"></a>http请求使用方法</h3><p>一个简单的 get 请求：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs.httpTask <span class="keyword">get</span>:@<span class="string">"https://blog.csdn.net/gwh111/article/details/100700830"</span> params:<span class="literal">nil</span> model:<span class="literal">nil</span> finishBlock:^(<span class="type">NSString</span> *error, <span class="type">HttpModel</span> *result) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>一个有特例配置的 get 请求：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">HttpModel</span> *model = [[<span class="type">HttpModel</span> alloc]<span class="keyword">init</span>];</span><br><span class="line">model.forbiddenJSONParseError = <span class="type">YES</span>;</span><br><span class="line">[ccs.httpTask <span class="keyword">get</span>:@<span class="string">"https://blog.csdn.net/gwh111/article/details/100700830"</span> params:<span class="literal">nil</span> model:model finishBlock:^(<span class="type">NSString</span> *error, <span class="type">HttpModel</span> *result) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h3 id="加密请求"><a href="#加密请求" class="headerlink" title="加密请求"></a>加密请求</h3><p>如需使用加密请求，需要先做加密准备：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs.httpEncryption prepare:^&#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>准备完毕后，所有使用 httpTask 的请求会默认加密。加密方法为 AES+RSA<br>如单个请求不加密，需对单个接口配置 forbiddenEncrypt 的属性：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">HttpModel</span> *model = [[<span class="type">HttpModel</span> alloc]<span class="keyword">init</span>];</span><br><span class="line">model.forbiddenEncrypt = <span class="type">YES</span>;</span><br><span class="line">[ccs.httpTask <span class="keyword">get</span>:@<span class="string">"https://blog.csdn.net/gwh111/article/details/100700830"</span> params:<span class="literal">nil</span> model:model finishBlock:^(<span class="type">NSString</span> *error, <span class="type">HttpModel</span> *result) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片上传使用方法"><a href="#图片上传使用方法" class="headerlink" title="图片上传使用方法"></a>图片上传使用方法</h3><p>上传一组图片，（通过特定接口上传）：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs.httpTask imageUpload:@[<span class="type">IMAGE</span>(@<span class="string">"abc"</span>)] url:[<span class="type">NSURL</span> <span class="type">URLWithString</span>:@<span class="string">"xxx"</span>] params:<span class="literal">nil</span> imageSize:<span class="number">1024</span> reConnectTimes:<span class="number">3</span> finishBlock:^(<span class="type">NSArray</span>&lt;<span class="type">HttpModel</span> *&gt; *errorModelArr, <span class="type">NSArray</span>&lt;<span class="type">HttpModel</span> *&gt; *successModelArr) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>根据图片压缩比例上传：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[ccs.httpTask imageUpload:@[<span class="type">IMAGE</span>(@<span class="string">"abc"</span>)] url:[<span class="type">NSURL</span> <span class="type">URLWithString</span>:@<span class="string">"xxx"</span>] params:<span class="literal">nil</span> imageScale:<span class="number">0.3</span> reConnectTimes:<span class="number">3</span> finishBlock:^(<span class="type">NSArray</span>&lt;<span class="type">HttpModel</span> *&gt; *errorModelArr, <span class="type">NSArray</span>&lt;<span class="type">HttpModel</span> *&gt; *successModelArr) &#123;</span><br><span class="line"></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件上传使用方法"><a href="#文件上传使用方法" class="headerlink" title="文件上传使用方法"></a>文件上传使用方法</h3><p>暂无</p>
+<h3 id="下载图片使用方法"><a href="#下载图片使用方法" class="headerlink" title="下载图片使用方法"></a>下载图片使用方法</h3><p>不带占位图：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">UIImageView</span> *imgV = ccs.<span class="type">ImageView</span>;</span><br><span class="line">imgV.showProgressView = <span class="type">YES</span>;</span><br><span class="line">[<span class="keyword">self</span>.view addSubView:imgV];</span><br><span class="line"></span><br><span class="line">[imgV cc_setImageWithURL:[<span class="type">NSURL</span> <span class="type">URLWithString</span>:@<span class="string">"imageUrl"</span>]];</span><br></pre></td></tr></table></figure>
+
+<p>带占位图下载：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[imgV cc_setImageWithURL:[<span class="type">NSURL</span> <span class="type">URLWithString</span>:@<span class="string">"imageUrl"</span>] placeholderImage:[<span class="type">UIImage</span> imageNamed:@<span class="string">"placeholder"</span>]];</span><br></pre></td></tr></table></figure>
+
+<p>带占位图、进度回调、完成回调：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[imgV cc_setImageWithURL:[<span class="type">NSURL</span> <span class="type">URLWithString</span>:@<span class="string">"imageUrl"</span>] placeholderImage:[<span class="type">UIImage</span> imageNamed:@<span class="string">"placeholder"</span>] processBlock:^(<span class="type">NSInteger</span> receivedSize, <span class="type">NSInteger</span> expectedSize, <span class="type">NSURL</span> * _Nullable targetURL) &#123;</span><br><span class="line">  <span class="comment">//进度回调</span></span><br><span class="line">&#125; completed:^(<span class="type">UIImage</span> * _Nullable image, <span class="type">NSError</span> * _Nullable error, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">  <span class="comment">//完成回调</span></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<p>带占位图、进度图、完成回调</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[imgV cc_setImageWithURL:[<span class="type">NSURL</span> <span class="type">URLWithString</span>:@<span class="string">"imageUrl"</span>] placeholderImage:[<span class="type">UIImage</span> imageNamed:@<span class="string">"placeholder"</span>] showProgressView:<span class="type">YES</span> completed:^(<span class="type">UIImage</span> * _Nullable image, <span class="type">NSError</span> * _Nullable error, <span class="type">BOOL</span> finished) &#123;</span><br><span class="line">  <span class="comment">//完成回调</span></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+
+<h3 id="加密使用方法"><a href="#加密使用方法" class="headerlink" title="加密使用方法"></a>加密使用方法</h3><p>MD5 唯一性校验：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSString</span> *md5Str = [<span class="type">CC_MD5Object</span> cc_signString:@<span class="string">"testString"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>将所有参数加上MD5Key 做 MD5 后带上 sign 字段：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSString</span> *md5Str = [ccs function_MD5SignWithDic:@&#123;@<span class="string">"key"</span>:@<span class="string">"value"</span>&#125; andMD5Key:@<span class="string">"abc123"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>将所有参数加上MD5Key 做 MD5 后获得 sign 值：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSString</span> *sign = [ccs function_MD5SignValueWithDic:@&#123;@<span class="string">"key"</span>:@<span class="string">"value"</span>&#125; andMD5Key:@<span class="string">"abc123"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>DES加密：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSString</span> *desEncryptStr = [<span class="type">CC_DES</span> cc_encryptUseDES:@<span class="string">"testString"</span> key:@<span class="string">"xxxxxxxxx"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>DES解密：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">NSString</span> *desDecryptStr = [<span class="type">CC_DES</span> cc_decryptUseDES:desEncryptStr key:@<span class="string">"xxxxxxxxx"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>AES加密：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//AES加密</span></span><br><span class="line"><span class="comment">//加密-带偏移量</span></span><br><span class="line"><span class="type">NSData</span> *aesEncryptData = [<span class="type">CC_AES</span> cc_encryptWithKey:@<span class="string">"testKey"</span> iv:@<span class="string">"testIV"</span> data:[@<span class="string">"testString"</span> cc_convertToUTF8data]];</span><br><span class="line"><span class="comment">//加密-不带偏移量</span></span><br><span class="line"><span class="type">NSData</span> *aesEncryptData = [<span class="type">CC_AES</span> cc_encryptWithKey:@<span class="string">"testKey"</span> data:[@<span class="string">"testString"</span> cc_convertToUTF8data]];</span><br></pre></td></tr></table></figure>
+
+<p>AES解密：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解密-带偏移量</span></span><br><span class="line"><span class="type">NSData</span> *aesDecryptData = [<span class="type">CC_AES</span> cc_decryptWithKey:@<span class="string">"testKey"</span> iv:@<span class="string">"testIV"</span> data:aesEncryptData];</span><br><span class="line"><span class="comment">//解密-不带偏移量</span></span><br><span class="line"><span class="type">NSData</span> *aesDecryptData = [<span class="type">CC_AES</span> cc_decryptWithKey:@<span class="string">"testKey"</span> data:aesEncryptData];</span><br></pre></td></tr></table></figure>
+
+<p>RSA加密：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//公钥加密</span></span><br><span class="line"><span class="type">NSString</span> *rsaencryptStr = [<span class="type">CC_RSA</span> cc_encryptStr:@<span class="string">"testString"</span> publicKey:@<span class="string">"testPublicKey"</span>];</span><br><span class="line"><span class="comment">//私钥加密</span></span><br><span class="line"><span class="type">NSString</span> *rsaDecryptStr = [<span class="type">CC_RSA</span> cc_encryptStr:@<span class="string">"testString"</span> privateKey:@<span class="string">"testPrivateKey"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>RSA解密：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//公钥解密</span></span><br><span class="line"><span class="type">NSString</span> *rsaencryptStr = [<span class="type">CC_RSA</span> cc_decryptStr:@<span class="string">"testString"</span> publicKey:@<span class="string">"testPublicKey"</span>];</span><br><span class="line"><span class="comment">//私钥解密</span></span><br><span class="line"><span class="type">NSString</span> *rsaDecryptStr = [<span class="type">CC_RSA</span> cc_decryptStr:@<span class="string">"testString"</span> privateKey:@<span class="string">"testPrivateKey"</span>];</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据存储使用方法"><a href="#数据存储使用方法" class="headerlink" title="数据存储使用方法"></a>数据存储使用方法</h2><p>CC_Lib/CC_LibStorage 具体使用见Test_LibViewController</p>
+<blockquote>
+<p>CC_KeyChainStore 钥匙串存储<br>CC_DefaultStore  NSUserDefaults<br>CC_BundleStore  NSBundle<br>CC_SandboxStore 沙盒 Documents 存储<br>CC_GCoreDataManager</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark CC_LibStorage</span><br><span class="line">//KeyChainStore</span><br><span class="line">+ (NSString *)keychainKey:(NSString *)name;</span><br><span class="line">+ (void)saveKeychainKey:(NSString *)key value:(NSString *)value;</span><br><span class="line">+ (NSString *)keychainUUID;</span><br><span class="line"></span><br><span class="line">//NSUserDefaults</span><br><span class="line">+ (id)defaultKey:(NSString *)key;</span><br><span class="line">+ (void)saveDefaultKey:(NSString *)key value:(id)value;</span><br><span class="line"></span><br><span class="line">+ (id)safeDefaultKey:(NSString *)key;</span><br><span class="line">+ (void)saveSafeDefaultKey:(NSString *)key value:(id)value;</span><br><span class="line"></span><br><span class="line">//NSBundle</span><br><span class="line">+ (NSString *)appName;</span><br><span class="line">+ (NSString *)appBid;</span><br><span class="line">+ (NSString *)appVersion;</span><br><span class="line">+ (NSString *)appBundleVersion;</span><br><span class="line">+ (NSDictionary *)appBundle;</span><br><span class="line"></span><br><span class="line">+ (NSArray *)bundleFileNamesWithPath:(NSString *)name type:(NSString *)type;</span><br><span class="line">+ (NSData *)bundleFileWithPath:(NSString *)name type:(NSString *)type;</span><br><span class="line">+ (NSDictionary *)bundlePlistWithPath:(NSString *)name;</span><br><span class="line"></span><br><span class="line">+ (BOOL)copyBunldFileToSandboxToPath:(NSString *)name type:(NSString *)type;</span><br><span class="line">+ (BOOL)copyBunldPlistToSandboxToPath:(NSString *)name;</span><br><span class="line"></span><br><span class="line">//沙盒 Documents 存储</span><br><span class="line">+ (NSString *)sandboxPath;</span><br><span class="line">+ (NSArray *)sandboxDirectoryFilesWithPath:(NSString *)name type:(NSString *)type;</span><br><span class="line"></span><br><span class="line">+ (NSData *)sandboxFileWithPath:(NSString *)name type:(NSString *)type;</span><br><span class="line">+ (NSDictionary *)sandboxPlistWithPath:(NSString *)name;</span><br><span class="line"></span><br><span class="line">+ (BOOL)deleteSandboxFileWithName:(NSString *)name;</span><br><span class="line">+ (BOOL)saveToSandboxWithData:(id)data toPath:(NSString *)name type:(NSString *)type;</span><br></pre></td></tr></table></figure>
+
+<h2 id="音频使用方法"><a href="#音频使用方法" class="headerlink" title="音频使用方法"></a>音频使用方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CC_MusicBox *musicBox = CC_MusicBox.shared;</span><br><span class="line">// 淡入淡出</span><br><span class="line">musicBox.cc_fadeIn = Yes;</span><br><span class="line">// 音效循环次数</span><br><span class="line">musicBox._cc_soundReplayTimes=10000;</span><br><span class="line">// 音乐循环次数</span><br><span class="line">// musicBox.cc_musicReplayTimes=10000;</span><br><span class="line">// 设置最大音量 （0.0~1.0）</span><br><span class="line">musicBox.cc_defaultVolume=0.8;</span><br><span class="line">// 播放音乐</span><br><span class="line">[musicBox cc_playMusic:@&quot;testMusicName&quot; type:@&quot;wav&quot;];</span><br><span class="line">// 播放音效</span><br><span class="line">//[musicBox cc_playSound:@&quot;testMusicName&quot; type:@&quot;wav&quot;];</span><br><span class="line">// 关闭音乐</span><br><span class="line">[musicBox cc_stopMusic];</span><br></pre></td></tr></table></figure>
+
+<h2 id="动画使用方法"><a href="#动画使用方法" class="headerlink" title="动画使用方法"></a>动画使用方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 不停闪烁</span><br><span class="line">// [noteTextV.layer addAnimation:[CC_Animation cc_flickerForever:.5] forKey:nil];</span><br><span class="line">+ (CABasicAnimation *)cc_flickerForever:(float)time;</span><br><span class="line"></span><br><span class="line">// 按钮点击放大动画</span><br><span class="line">// [CC_Animation cc_buttonTapEnlarge:checkBt];</span><br><span class="line">+ (void)cc_buttonTapEnlarge:(CC_Button *)button;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数使用方法"><a href="#函数使用方法" class="headerlink" title="函数使用方法"></a>函数使用方法</h2><p>CC_Lib/CC_Function 具体使用见Test_FunctionViewController</p>
+<blockquote>
+<p> CC_Function 常用工具函数<br>CC_String CC_Array  CC_Dictionary CC_Data CC_Date CC_Object相关类方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark CC_Function</span><br><span class="line">+ (NSData *)function_dataWithInt:(int)i;</span><br><span class="line"></span><br><span class="line">+ (BOOL)function_isEmpty:(id)obj;</span><br><span class="line">+ (BOOL)function_isInstallFromAppStore;</span><br><span class="line">+ (BOOL)function_isJailBreak;</span><br><span class="line"></span><br><span class="line">+ (int)function_compareVersion:(NSString *)v1 cutVersion:(NSString *)v2;</span><br><span class="line"></span><br><span class="line">+ (NSString *)function_stringWithJson:(id)object;</span><br><span class="line">+ (NSString *)function_formatDate:(NSString *)date nowDate:(NSString *)nowDate;</span><br><span class="line">+ (NSString *)function_formatDate:(NSString *)date nowDate:(NSString *)nowDate formatArr:(NSArray *)formatArr;</span><br><span class="line"></span><br><span class="line">+ (NSString *)function_replaceHtmlLabel:(NSString *)htmlStr labelName:(NSString *)labelName toLabelName:(NSString *)toLabelName trimSpace:(BOOL)trimSpace;</span><br><span class="line">+ (NSArray *)function_getHtmlLabel:(NSString *)htmlStr start:(NSString *)startStr end:(NSString *)endStr includeStartEnd:(BOOL)includeStartEnd;</span><br><span class="line"></span><br><span class="line">+ (NSMutableString *)function_MD5SignWithDic:(NSMutableDictionary *)dic andMD5Key:(NSString *)MD5KeyString;</span><br><span class="line">+ (NSMutableString *)function_MD5SignValueWithDic:(NSMutableDictionary *)dic andMD5Key:(NSString *)MD5KeyString;</span><br><span class="line"></span><br><span class="line">+ (NSMutableArray *)function_sortChineseArr:(NSMutableArray *)sortMutArr depthArr:(NSArray *)depthArr;</span><br><span class="line">+ (NSMutableArray *)function_sortMutArr:(NSMutableArray *)mutArr byKey:(NSString *)key desc:(int)desc;</span><br><span class="line">+ (NSMutableArray *)function_mapParser:(NSArray *)pathArr idKey:(NSString *)idKey keepKey:(BOOL)keepKey pathMap:(NSDictionary *)pathMap;</span><br><span class="line">+ (NSMutableArray *)function_addMapParser:(NSMutableArray *)pathArr idKey:(NSString *)idKey keepKey:(BOOL)keepKey map:(NSDictionary *)getMap;</span><br><span class="line"></span><br><span class="line">+ (NSTimeInterval)function_compareDate:(id)date1 cut:(id)date2;</span><br><span class="line"></span><br><span class="line">+ (NSData *)function_archivedDataWithObject:(id)object;</span><br><span class="line"></span><br><span class="line">+ (UIImage *)function_imageWithColor:(UIColor*)color width:(CGFloat)width height:(CGFloat)height;</span><br><span class="line"></span><br><span class="line">+ (id)function_unarchivedObjectWithData:(id)data;</span><br><span class="line">+ (id)function_copyObject:(id)object;</span><br><span class="line">+ (id)function_jsonWithString:(NSString *)jsonString;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/bench-ios/" rel="tag"># bench_ios</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/04/11/Build your first macOS app - PackageMachine/" rel="next" title="Build your first macOS app - PackageMachine">
+                  <i class="fa fa-chevron-left"></i> Build your first macOS app - PackageMachine
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/11/hello-world/" rel="prev" title="Hello World">
+                  Hello World <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#bench-ios开发指南"><span class="nav-number">1.</span> <span class="nav-text">bench_ios开发指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模板使用"><span class="nav-number">1.1.</span> <span class="nav-text">模板使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Xcode-工程模板"><span class="nav-number">1.1.1.</span> <span class="nav-text">Xcode 工程模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xcode-类模板"><span class="nav-number">1.1.2.</span> <span class="nav-text">Xcode 类模板</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Podfile-安装"><span class="nav-number">1.2.</span> <span class="nav-text">Podfile 安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模式类使用方法"><span class="nav-number">2.</span> <span class="nav-text">模式类使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ccs调度中心介绍"><span class="nav-number">2.1.</span> <span class="nav-text">ccs调度中心介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AppDelegate使用方法"><span class="nav-number">2.2.</span> <span class="nav-text">AppDelegate使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TabBarController使用方法"><span class="nav-number">2.3.</span> <span class="nav-text">TabBarController使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CC-ViewController使用方法"><span class="nav-number">2.4.</span> <span class="nav-text">CC_ViewController使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Controller使用方法"><span class="nav-number">2.5.</span> <span class="nav-text">Controller使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CC-NavigationController使用方法"><span class="nav-number">2.6.</span> <span class="nav-text">CC_NavigationController使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#屏幕控制使用方法"><span class="nav-number">2.7.</span> <span class="nav-text">屏幕控制使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CC-Model-使用方法"><span class="nav-number">2.8.</span> <span class="nav-text">CC_Model 使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CC-UIKit使用方法"><span class="nav-number">2.9.</span> <span class="nav-text">CC_UIKit使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#控件使用"><span class="nav-number">2.9.1.</span> <span class="nav-text">控件使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CC-Alert"><span class="nav-number">2.9.2.</span> <span class="nav-text">CC_Alert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#app标准使用方法"><span class="nav-number">2.9.3.</span> <span class="nav-text">app标准使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动适配使用方法"><span class="nav-number">2.9.4.</span> <span class="nav-text">自动适配使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#textBind使用方法"><span class="nav-number">2.9.5.</span> <span class="nav-text">textBind使用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例使用方法"><span class="nav-number">2.10.</span> <span class="nav-text">单例使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享数据使用方法"><span class="nav-number">2.11.</span> <span class="nav-text">共享数据使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程使用方法"><span class="nav-number">2.12.</span> <span class="nav-text">多线程使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定时器使用方法"><span class="nav-number">2.13.</span> <span class="nav-text">定时器使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化生命周期分发使用方法"><span class="nav-number">2.14.</span> <span class="nav-text">组件化生命周期分发使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化分类使用方法"><span class="nav-number">2.15.</span> <span class="nav-text">组件化分类使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#config使用方法"><span class="nav-number">2.16.</span> <span class="nav-text">config使用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工具类使用方法"><span class="nav-number">3.</span> <span class="nav-text">工具类使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CC-Monitor使用方法"><span class="nav-number">3.1.</span> <span class="nav-text">CC_Monitor使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络请求使用方法"><span class="nav-number">3.2.</span> <span class="nav-text">网络请求使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http请求使用方法"><span class="nav-number">3.2.1.</span> <span class="nav-text">http请求使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密请求"><span class="nav-number">3.2.2.</span> <span class="nav-text">加密请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片上传使用方法"><span class="nav-number">3.2.3.</span> <span class="nav-text">图片上传使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传使用方法"><span class="nav-number">3.2.4.</span> <span class="nav-text">文件上传使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载图片使用方法"><span class="nav-number">3.2.5.</span> <span class="nav-text">下载图片使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加密使用方法"><span class="nav-number">3.2.6.</span> <span class="nav-text">加密使用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据存储使用方法"><span class="nav-number">3.3.</span> <span class="nav-text">数据存储使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#音频使用方法"><span class="nav-number">3.4.</span> <span class="nav-text">音频使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动画使用方法"><span class="nav-number">3.5.</span> <span class="nav-text">动画使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数使用方法"><span class="nav-number">3.6.</span> <span class="nav-text">函数使用方法</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">GaoWuhang</p>
+  <div class="site-description" itemprop="description">你的名字</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoWuhang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">
+      
+    主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '17f5c4ab012abe0276b9',
+      clientSecret: '05d29fb336d73a5d810843a167ad478c3e663358',
+      repo: 'BlogDiscuss',
+      owner: 'gwh111',
+      admin: ['gwh111'],
+      id: '9f89880cb98129aa3ed1a2cf03596bf8',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>

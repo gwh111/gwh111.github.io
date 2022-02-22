@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Build your first macOS app - PackageMachine Why build this app?Code:https://github.com/gwh111/testcocoappswift This tutorial is better for iOS developer to master build basic macOS app skills. Meanwhi">
+<meta name="keywords" content="macos">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Build your first macOS app - PackageMachine">
+<meta property="og:url" content="http://www.gaowuhang.com/2019/04/11/Build your first macOS app - PackageMachine/index.html">
+<meta property="og:site_name" content="Less is more">
+<meta property="og:description" content="Build your first macOS app - PackageMachine Why build this app?Code:https://github.com/gwh111/testcocoappswift This tutorial is better for iOS developer to master build basic macOS app skills. Meanwhi">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410183336155.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410183948964.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410191106557.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410191325487.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019041019265597.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410192813427.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411112009958.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411112148761.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411112415508.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411121218982.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411113342596.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190411113528242.png">
+<meta property="og:updated_time" content="2019-10-16T06:21:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Build your first macOS app - PackageMachine">
+<meta name="twitter:description" content="Build your first macOS app - PackageMachine Why build this app?Code:https://github.com/gwh111/testcocoappswift This tutorial is better for iOS developer to master build basic macOS app skills. Meanwhi">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190410183336155.png">
+  <link rel="canonical" href="http://www.gaowuhang.com/2019/04/11/Build your first macOS app - PackageMachine/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Build your first macOS app - PackageMachine | Less is more</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Less is more</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+        
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+    
+      
+      
+        
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      
+    
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.gaowuhang.com/2019/04/11/Build your first macOS app - PackageMachine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GaoWuhang">
+      <meta itemprop="description" content="你的名字">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Less is more">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            Build your first macOS app - PackageMachine
+            
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-11 10:04:54" itemprop="dateCreated datePublished" datetime="2019-04-11T10:04:54+08:00">2019-04-11</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-16 14:21:01" itemprop="dateModified" datetime="2019-10-16T14:21:01+08:00">2019-10-16</time>
+              </span>
+            
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Build your first macOS app - PackageMachine</p>
+<h1 id="Why-build-this-app"><a href="#Why-build-this-app" class="headerlink" title="Why build this app?"></a>Why build this app?</h1><p>Code:<a href="https://github.com/gwh111/testcocoappswift" target="_blank" rel="noopener">https://github.com/gwh111/testcocoappswift</a></p>
+<p>This tutorial is better for <strong>iOS developer</strong> to master build basic macOS app skills. Meanwhile, this app is also a useful tool for an iOS developer.</p>
+<p>We know how package with Xcode. We use archive so that we can export .ipa file. Before submit to AppStore, we often offer .ipa file to tester to do test. When you do several projects at same time, you are easily to make mistake or a bit of trouble to do this work. And PackageMachine is a macos app that can <strong><em>help you manage your projects and export .ipa file</em></strong> with one click.</p>
+<p>Here’s a tutorial for how to build such a macos app.</p>
+<h1 id="Build-the-app"><a href="#Build-the-app" class="headerlink" title="Build the app"></a>Build the app</h1><h2 id="Create-project"><a href="#Create-project" class="headerlink" title="Create project"></a>Create project</h2><p>First you need to open Xcode then to do <strong><em>File-New-Project</em></strong>.<br><img src="https://img-blog.csdnimg.cn/20190410183336155.png" width="438"></p>
+<p>then choose <strong><em>macOS-CocoaApp</em></strong> and tap next to create a CocoaApp template.<br>We give it a name “PackageMachine”. So now we have:<br><img src="https://img-blog.csdnimg.cn/20190410183948964.png" width="360"></p>
+<h2 id="Draw-views-in-Main-storyboard"><a href="#Draw-views-in-Main-storyboard" class="headerlink" title="Draw views in Main.storyboard"></a>Draw views in Main.storyboard</h2><p>Use Main.storyboard can help us see the project structure clearly and to do less code.<br>You can use library and search to find plugs you want quickly.<br><img src="https://img-blog.csdnimg.cn/20190410191106557.png" width="300"></p>
+<p>Then layout the view carefully.<br><img src="https://img-blog.csdnimg.cn/20190410191325487.png" width="720"></p>
+<p>It’s not hard to layout the display like this.</p>
+<h2 id="State-IBOutlet"><a href="#State-IBOutlet" class="headerlink" title="State IBOutlet"></a>State IBOutlet</h2><p>In swift it do not like ObjectiveC has .h file, we just declare IBOutlet in .swift.<br>We find <strong><em>ViewController.swift</em></strong> and do following statement. So that we can connect code to our storyboard layout later.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@IBOutlet var taskName: NSTextField!</span><br><span class="line">@IBOutlet var projectPath: NSTextField!</span><br><span class="line">@IBOutlet var projectName: NSTextField!</span><br><span class="line">@IBOutlet var debugRelease: NSSegmentedControl!</span><br><span class="line">@IBOutlet var exportOptionsPath: NSTextField!</span><br><span class="line">@IBOutlet var ipaPath: NSTextField!</span><br><span class="line">@IBOutlet var logTextField: NSTextField!</span><br><span class="line">@IBOutlet var showInfoTextView: NSTextView!</span><br></pre></td></tr></table></figure>
+
+<img src="https://img-blog.csdnimg.cn/2019041019265597.png" width="140">
+
+<p>Remember to open assistant editor in the middle and show the inspectors in Xcode.<br><img src="https://img-blog.csdnimg.cn/20190410192813427.png" width="600"></p>
+<p>Connect all the target one to one carefully. Once you have done, you can change display in storyboard with your code now.</p>
+<p>Don’t forget to link button and segment control at same time.<br>For button, I use tag to distinguish the different path selected.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@IBAction func selectPath(_ sender: NSButton) &#123;</span><br><span class="line">        let tag=sender.tag</span><br><span class="line">        print(tag)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Interaction-method"><a href="#Interaction-method" class="headerlink" title="Interaction method"></a>Interaction method</h2><p>We want to get project path with one click and show the document list. So we need to use <strong><em>NSOpenPanel()</em></strong>  It has been realized by Apple, once you <strong><em>import Cocoa</em></strong> you can use all the base classes.<br>The <strong><em>selectPath(_ sender: NSButton)</em></strong> method can be realized as:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">@IBAction func selectPath(_ sender: NSButton) &#123;</span><br><span class="line">        let tag=sender.tag</span><br><span class="line">        print(tag)</span><br><span class="line"></span><br><span class="line">        // 1. create Panel object</span><br><span class="line">        let openPanel = NSOpenPanel()</span><br><span class="line">        // 2. set button text</span><br><span class="line">        openPanel.prompt = &quot;Select&quot;</span><br><span class="line">        // 3. forbidden select file, we only need path.</span><br><span class="line">        openPanel.canChooseFiles = true</span><br><span class="line">        if tag==0||tag==2 &#123;</span><br><span class="line">            openPanel.canChooseFiles = false</span><br><span class="line">        &#125;</span><br><span class="line">        // 4. set can choose directories</span><br><span class="line">        openPanel.canChooseDirectories = true</span><br><span class="line">        if tag==1 &#123;</span><br><span class="line">            openPanel.canChooseDirectories = false</span><br><span class="line">            openPanel.allowedFileTypes=[&quot;plist&quot;]</span><br><span class="line">        &#125;</span><br><span class="line">        // 5. pop sheet method</span><br><span class="line">        openPanel.beginSheetModal(for: self.view.window!) &#123; (result) in</span><br><span class="line">            // 6. when ok button clicked</span><br><span class="line">            if result == NSApplication.ModalResponse.OK &#123;</span><br><span class="line">                // 7. get the current path</span><br><span class="line">                let path=openPanel.urls[0].absoluteString.removingPercentEncoding!</span><br><span class="line">                if tag==0 &#123;</span><br><span class="line">                    self.projectPath.stringValue=path</span><br><span class="line">                    let array=path.components(separatedBy:&quot;/&quot;)</span><br><span class="line">                    if array.count&gt;1&#123;</span><br><span class="line">                        let name=array[array.count-2]</span><br><span class="line">                        print(array)</span><br><span class="line">                        print(name as Any)</span><br><span class="line">                        self.projectName.stringValue=name</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;else if tag==1 &#123;</span><br><span class="line">                    self.exportOptionsPath.stringValue=path</span><br><span class="line">                &#125;else&#123;</span><br><span class="line">                    self.ipaPath.stringValue=path</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>This method help us record all the paths and we will talk how to save all the data later. And we use <strong><em>path.compoents(separatedBy:”/“)</em></strong> to separate string to array.</p>
+<p>When segment control state changed, we can add a select to monitor the state.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">debugRelease.action = #selector(segmentControlChanged(segmentControl:))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@objc func segmentControlChanged(segmentControl: NSSegmentedControl) &#123;</span><br><span class="line">        print(segmentControl.selectedSegment)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Start（Run-shell-task）"><a href="#Start（Run-shell-task）" class="headerlink" title="Start（Run shell task）"></a>Start（Run shell task）</h2><p>Before run task, we will check all the textview content is standard. Notice we use <strong><em>showNotice()</em></strong> method, and we will explain how to realize this later.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">guard projectPath.stringValue != &quot;&quot; else &#123;</span><br><span class="line">      showNotice(str: &quot;project path cannot empty&quot;, suc: false)</span><br><span class="line">      return</span><br><span class="line">&#125;</span><br><span class="line">guard projectName.stringValue != &quot;&quot; else &#123;</span><br><span class="line">      showNotice(str: &quot;project name cannot empty&quot;, suc: false)</span><br><span class="line">      return</span><br><span class="line">&#125;</span><br><span class="line">guard ipaPath.stringValue != &quot;&quot; else &#123;</span><br><span class="line">      showNotice(str: &quot;output ipa path cannot empty&quot;, suc: false)</span><br><span class="line">      return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Can we run task now? The answer is no. We need something else to do.</p>
+<p>We should replace some var in shell script with the path we set before by using <strong><em>replacingOccurrences</em></strong> method. The code can be see as:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let returnData = Bundle.main.path(forResource: &quot;package&quot;, ofType: &quot;sh&quot;)</span><br><span class="line">let data = NSData.init(contentsOfFile: returnData!)</span><br><span class="line">var str =  NSString(data:data! as Data, encoding: String.Encoding.utf8.rawValue)! as String</span><br><span class="line">if debugRelease.selectedSegment==0 &#123;</span><br><span class="line">   str = str.replacingOccurrences(of: &quot;DEBUG_RELEASE&quot;, with: &quot;debug&quot;)</span><br><span class="line">&#125;else&#123;</span><br><span class="line">    str = str.replacingOccurrences(of: &quot;DEBUG_RELEASE&quot;, with: &quot;release&quot;)</span><br><span class="line">&#125;</span><br><span class="line">str = str.replacingOccurrences(of: &quot;NAME_PROJECT&quot;, with: nameStr)</span><br><span class="line">str = str.replacingOccurrences(of: &quot;PATH_PROJECT&quot;, with: projectStr)</span><br><span class="line">str = str.replacingOccurrences(of: &quot;PATH_PLIST&quot;, with: plistStr)</span><br><span class="line">str = str.replacingOccurrences(of: &quot;PATH_IPA&quot;, with: ipaStr)</span><br><span class="line">str = str.replacingOccurrences(of: &quot;file://&quot;, with: &quot;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>And last step before running we need go to global thread to make sure the app will not get stuck when running our task.</p>
+<p>Our code will default run in main thread, which is UI thread. Normally we should put time cost task in child thread so that the UI thread will not get stuck.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">isLoadingRepo = true  //set sign</span><br><span class="line">DispatchQueue.global(qos: .default).async &#123;</span><br><span class="line">		let task = Process()     // init NSTask</span><br><span class="line"></span><br><span class="line">        // set task</span><br><span class="line">        task.launchPath = &quot;/bin/bash&quot;    // absolute execution path</span><br><span class="line"></span><br><span class="line">        // set command</span><br><span class="line">        task.arguments = [&quot;-c&quot;,str]</span><br><span class="line">        task.terminationHandler = &#123; proce in              // finish block</span><br><span class="line">                self.isLoadingRepo = false    // recover sign</span><br><span class="line">                //5. back to UI thread</span><br><span class="line">                DispatchQueue.main.async(execute: &#123;</span><br><span class="line">                    self.logTextField.stringValue=&quot;finish running task...&quot;;</span><br><span class="line">                &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        self.captureStandardOutputAndRouteToTextView(task)</span><br><span class="line">        task.launch()                // run task</span><br><span class="line">        task.waitUntilExit()       // wait to finish</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then we create a <strong><em>Process()</em></strong> to run the shell script, and go back to main thread in <strong><em>terminationHandler</em></strong> block.<br>If user not set a path, we use default file to execute:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var plistStr:String=self.exportOptionsPath.stringValue</span><br><span class="line">if plistStr.count&lt;=0 &#123;</span><br><span class="line">    let homeDic=NSHomeDirectory().appending(&quot;/ProjectPackage/eo&quot;) as String</span><br><span class="line">    plistStr=homeDic.appending(&quot;/&quot;+&quot;ExportOptions&quot;+&quot;.plist&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>So this part all the function code can be realize as:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">@IBAction func start(_ sender: Any) &#123;</span><br><span class="line">        guard projectPath.stringValue != &quot;&quot; else &#123;</span><br><span class="line">      		showNotice(str: &quot;project path cannot empty&quot;, suc: false)</span><br><span class="line">	   	    return</span><br><span class="line">		&#125;</span><br><span class="line">		guard projectName.stringValue != &quot;&quot; else &#123;</span><br><span class="line">        	showNotice(str: &quot;project name cannot empty&quot;, suc: false)</span><br><span class="line">     	 	return</span><br><span class="line">		&#125;</span><br><span class="line">		guard ipaPath.stringValue != &quot;&quot; else &#123;</span><br><span class="line">        	showNotice(str: &quot;output ipa path cannot empty&quot;, suc: false)</span><br><span class="line">      		return</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">        if isLoadingRepo &#123;</span><br><span class="line">            showNotice(str: &quot;is running last task&quot;, suc: false)</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        isLoadingRepo = true</span><br><span class="line"></span><br><span class="line">        var projectStr=self.projectPath.stringValue</span><br><span class="line">        if projectStr.first==&quot;/&quot; &#123;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            projectStr=&quot;/&quot;+projectStr</span><br><span class="line">        &#125;</span><br><span class="line">        let nameStr=self.projectName.stringValue</span><br><span class="line">        var plistStr:String=self.exportOptionsPath.stringValue</span><br><span class="line">        if plistStr.count&lt;=0 &#123;</span><br><span class="line">            let homeDic=NSHomeDirectory().appending(&quot;/ProjectPackage/eo&quot;) as String</span><br><span class="line">            plistStr=homeDic.appending(&quot;/&quot;+&quot;ExportOptions&quot;+&quot;.plist&quot;)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        var ipaStr=self.ipaPath.stringValue</span><br><span class="line">        if ipaStr.first==&quot;/&quot; &#123;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            ipaStr=&quot;/&quot;+ipaStr</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        let returnData = Bundle.main.path(forResource: &quot;package&quot;, ofType: &quot;sh&quot;)</span><br><span class="line">        let data = NSData.init(contentsOfFile: returnData!)</span><br><span class="line">        var str =  NSString(data:data! as Data, encoding: String.Encoding.utf8.rawValue)! as String</span><br><span class="line">        if debugRelease.selectedSegment==0 &#123;</span><br><span class="line">            str = str.replacingOccurrences(of: &quot;DEBUG_RELEASE&quot;, with: &quot;debug&quot;)</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            str = str.replacingOccurrences(of: &quot;DEBUG_RELEASE&quot;, with: &quot;release&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">        str = str.replacingOccurrences(of: &quot;NAME_PROJECT&quot;, with: nameStr)</span><br><span class="line">        str = str.replacingOccurrences(of: &quot;PATH_PROJECT&quot;, with: projectStr)</span><br><span class="line">        str = str.replacingOccurrences(of: &quot;PATH_PLIST&quot;, with: plistStr)</span><br><span class="line">        str = str.replacingOccurrences(of: &quot;PATH_IPA&quot;, with: ipaStr)</span><br><span class="line">        str = str.replacingOccurrences(of: &quot;file://&quot;, with: &quot;&quot;)</span><br><span class="line">        print(&quot;result：\(str)&quot;);</span><br><span class="line"></span><br><span class="line">        self.logTextField.stringValue=&quot;start running task...&quot;;</span><br><span class="line"></span><br><span class="line">		DispatchQueue.global(qos: .default).async &#123;</span><br><span class="line">				let task = Process()     // init NSTask</span><br><span class="line">    		    // set task</span><br><span class="line">    		    task.launchPath = &quot;/bin/bash&quot;    // absolute execution path</span><br><span class="line">    		    // set command</span><br><span class="line">     		   task.arguments = [&quot;-c&quot;,str]</span><br><span class="line">     		   task.terminationHandler = &#123; proce in              // finish block</span><br><span class="line">            		    self.isLoadingRepo = false    // recover sign</span><br><span class="line">         		       //5. back to UI thread</span><br><span class="line">         		       DispatchQueue.main.async(execute: &#123;</span><br><span class="line">               		     self.logTextField.stringValue=&quot;finish running task...&quot;;</span><br><span class="line">            		    &#125;)</span><br><span class="line">  		      &#125;</span><br><span class="line">     		   self.captureStandardOutputAndRouteToTextView(task)</span><br><span class="line">     		   task.launch()                // run task</span><br><span class="line">     		   task.waitUntilExit()       // wait to finish</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Monitor-task-output"><a href="#Monitor-task-output" class="headerlink" title="Monitor task output"></a>Monitor task output</h2><p>We all know when we run task in terminal, it will output a lot of log to help us find error. So we need capture some log when we are running our shell script.</p>
+<p>If you are carefully, you must find <strong><em>captureStandardOutputAndRouteToTextView(task)</em></strong> before in <strong>*start(_ sender: Any) *</strong> method. So now we realize this function:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">extension ViewController&#123;</span><br><span class="line">    fileprivate func captureStandardOutputAndRouteToTextView(_ task:Process) &#123;</span><br><span class="line">        //1. set output standard pipe</span><br><span class="line">        outputPipe = Pipe()</span><br><span class="line">        task.standardOutput = outputPipe</span><br><span class="line"></span><br><span class="line">        //2. waiting for notification</span><br><span class="line">        outputPipe.fileHandleForReading.waitForDataInBackgroundAndNotify()</span><br><span class="line"></span><br><span class="line">        //3. receive notification</span><br><span class="line"></span><br><span class="line">        observe=NotificationCenter.default.addObserver(forName: NSNotification.Name.NSFileHandleDataAvailable, object: outputPipe.fileHandleForReading , queue: nil) &#123; notification in</span><br><span class="line"></span><br><span class="line">            //4. get pipe data, transform to string</span><br><span class="line">            let output = self.outputPipe.fileHandleForReading.availableData</span><br><span class="line">            let outputString = String(data: output, encoding: String.Encoding.utf8) ?? &quot;&quot;</span><br><span class="line">            if outputString != &quot;&quot;&#123;</span><br><span class="line">                //5. goto main UI</span><br><span class="line">                DispatchQueue.main.async &#123;</span><br><span class="line"></span><br><span class="line">                    if self.isLoadingRepo == false &#123;</span><br><span class="line">                        let previousOutput = self.showInfoTextView.string</span><br><span class="line">                        let nextOutput = previousOutput + &quot;\n&quot; + outputString</span><br><span class="line">                        self.showInfoTextView.string = nextOutput</span><br><span class="line">                        // scroll to bottom</span><br><span class="line">                        let range = NSRange(location:nextOutput.utf8CString.count,length:0)</span><br><span class="line">                        self.showInfoTextView.scrollRangeToVisible(range)</span><br><span class="line"></span><br><span class="line">                        if self.observe==nil &#123;</span><br><span class="line">                            return</span><br><span class="line">                        &#125;</span><br><span class="line">                        NotificationCenter.default.removeObserver(self.observe!)</span><br><span class="line"></span><br><span class="line">                        return</span><br><span class="line">                    &#125;else&#123;</span><br><span class="line">                        let previousOutput = self.showInfoTextView.string</span><br><span class="line">                        var nextOutput = previousOutput + &quot;\n&quot; + outputString as String</span><br><span class="line">                        if nextOutput.count&gt;5000 &#123;</span><br><span class="line">                            nextOutput=String(nextOutput.suffix(1000));</span><br><span class="line">                        &#125;</span><br><span class="line">                        // scroll to bottom</span><br><span class="line">                        let range = NSRange(location:nextOutput.utf8CString.count,length:0)</span><br><span class="line">                        self.showInfoTextView.scrollRangeToVisible(range)</span><br><span class="line">                        self.showInfoTextView.string = nextOutput</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if self.isLoadingRepo == false &#123;</span><br><span class="line">                return</span><br><span class="line">            &#125;</span><br><span class="line">            //6. waiting for next notification</span><br><span class="line">            self.outputPipe.fileHandleForReading.waitForDataInBackgroundAndNotify()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Pipe is used for serial port communication, to see more information, you can see <a href="https://developer.apple.com/documentation/foundation/pipe" target="_blank" rel="noopener">https://developer.apple.com/documentation/foundation/pipe</a></p>
+<p>Now you can run one task now, next we will add some codes to make it easy to use and talk how to write shell script.</p>
+<h1 id="Shell-script"><a href="#Shell-script" class="headerlink" title="Shell script"></a>Shell script</h1><h2 id="Learn-write-some-shell-script"><a href="#Learn-write-some-shell-script" class="headerlink" title="Learn write some shell script"></a>Learn write some shell script</h2><p>You can open your terminal to do such test.<br>Output “hello world”:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a=&quot;hello world!&quot;</span><br><span class="line">num=2</span><br><span class="line">echo &quot;a is : $a num is : $&#123;num&#125;nd&quot;</span><br></pre></td></tr></table></figure>
+
+<p>move file to another document and change name:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /Users/gwh/Documents/aaa123.jpg /Users/gwh/aaa1234.jpg</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell-script-in-package-machine"><a href="#shell-script-in-package-machine" class="headerlink" title="shell script in package machine"></a>shell script in package machine</h2><p>Now you master some grammar for shell script, let’s see what’s in PackageMachine’s shell script. I  have added some notes between command line:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"># !/bin/bash</span><br><span class="line"></span><br><span class="line"># project name</span><br><span class="line">project_name=&apos;NAME_PROJECT&apos;</span><br><span class="line"># project path</span><br><span class="line">project_path=&apos;PATH_PROJECT&apos;</span><br><span class="line"># exportOptionsPlist path</span><br><span class="line">plist_path=&apos;PATH_PLIST&apos;</span><br><span class="line"># debug release</span><br><span class="line">debug_release=&apos;DEBUG_RELEASE&apos;</span><br><span class="line"># ipa output path</span><br><span class="line"># create archive doc</span><br><span class="line">output_path=&apos;PATH_IPA&apos;</span><br><span class="line"># xcarchive temp store path</span><br><span class="line">archive_path=&quot;$output_path/archive&quot;</span><br><span class="line"></span><br><span class="line">appName=&apos;xx&apos;</span><br><span class="line">appId=&apos;xx&apos;</span><br><span class="line"></span><br><span class="line">packaging()&#123;</span><br><span class="line"></span><br><span class="line"># ***********configure</span><br><span class="line">MWConfiguration=$debug_release</span><br><span class="line">#date</span><br><span class="line">MWDate=`date +%Y%m%d_%H%M`</span><br><span class="line"></span><br><span class="line"># structure</span><br><span class="line">xcodebuild archive \</span><br><span class="line">-workspace &quot;$project_path$project_name.xcworkspace&quot; \</span><br><span class="line">-scheme &quot;$project_name&quot; \</span><br><span class="line">-configuration &quot;$MWConfiguration&quot; \</span><br><span class="line">-archivePath &quot;$archive_path/$project_name&quot; \</span><br><span class="line">clean \</span><br><span class="line">build \</span><br><span class="line">-derivedDataPath &quot;$MWBuildTempDir&quot;</span><br><span class="line"></span><br><span class="line"># output ipa file</span><br><span class="line">xcodebuild -exportArchive -exportOptionsPlist $plist_path -archivePath &quot;$archive_path/$project_name.xcarchive&quot; -exportPath $output_path/$appId</span><br><span class="line"></span><br><span class="line"># move and rename</span><br><span class="line"># mv /$output_path/$appId/LotteryShop.ipa /$output_path/$appId.ipa</span><br><span class="line">time3=$(date &quot;+%Y-%m-%d %H-%M-%S&quot;)</span><br><span class="line">mv /$output_path/$appId/$project_name.ipa /$output_path/&quot;$appId $time3.ipa&quot;</span><br><span class="line"></span><br><span class="line"># delete temp file</span><br><span class="line">rm -r $output_path/$appId/</span><br><span class="line">rm -r $output_path/archive/</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">group()&#123;</span><br><span class="line"></span><br><span class="line">appNames=($project_name)</span><br><span class="line"></span><br><span class="line">appIds=($project_name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [[ $all -eq 0 ]]; then</span><br><span class="line">echo &quot;all=$all&quot;</span><br><span class="line"></span><br><span class="line">appNames=($project_name)</span><br><span class="line"></span><br><span class="line">appIds=($project_name)</span><br><span class="line"></span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">i=0</span><br><span class="line">while [[ i -lt $&#123;#appIds[@]&#125; ]]; do</span><br><span class="line"></span><br><span class="line">appName=$&#123;appNames[i]&#125;</span><br><span class="line">appId=$&#123;appIds[i]&#125;</span><br><span class="line">let i++</span><br><span class="line"></span><br><span class="line">echo $appName</span><br><span class="line"># replace resource</span><br><span class="line"># prepare</span><br><span class="line"></span><br><span class="line">#package</span><br><span class="line">packaging</span><br><span class="line"></span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">open $output_path</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">#---------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">#start</span><br><span class="line">group</span><br></pre></td></tr></table></figure>
+
+<h1 id="Read-and-Save"><a href="#Read-and-Save" class="headerlink" title="Read and Save"></a>Read and Save</h1><p>Once we create a task, we need to save it to local, so that we can recover when reopen the app.</p>
+<h2 id="Create-store-documents-when-launch"><a href="#Create-store-documents-when-launch" class="headerlink" title="Create store documents when launch"></a>Create store documents when launch</h2><img src="https://img-blog.csdnimg.cn/20190411112009958.png" width="200">
+
+<p>When we use the app in first time, i will create two documents to store data when in use.<br>The <strong><em>/ProjectPackage/eo</em></strong> is used to save <strong><em>ExportOptions.plist</em></strong> file and the <strong><em>/ProjectPackage/task</em></strong> is used to save tasks we will create when in use.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">let taskPath=NSHomeDirectory().appending(&quot;/ProjectPackage/task&quot;) as String</span><br><span class="line">        let eoPath=NSHomeDirectory().appending(&quot;/ProjectPackage/eo&quot;) as String</span><br><span class="line"></span><br><span class="line">        let fileM=FileManager.default</span><br><span class="line">        let existed:Bool=fileM.fileExists(atPath: taskPath, isDirectory: nil)</span><br><span class="line">        if (existed==false) &#123;</span><br><span class="line">            do &#123;</span><br><span class="line">                try fileM.createDirectory(at: NSURL.fileURL(withPath: taskPath), withIntermediateDirectories: true, attributes: nil)</span><br><span class="line">            &#125;catch&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        let existed_eo:Bool=fileM.fileExists(atPath: eoPath, isDirectory: nil)</span><br><span class="line">        if (existed_eo==false) &#123;</span><br><span class="line">            do &#123;</span><br><span class="line">                try fileM.createDirectory(at: NSURL.fileURL(withPath: eoPath), withIntermediateDirectories: true, attributes: nil)</span><br><span class="line">            &#125;catch&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">//        print(read() as Any)</span><br><span class="line"></span><br><span class="line">        //save exp</span><br><span class="line">        let returnData = Bundle.main.path(forResource: &quot;ExportOptions&quot;, ofType: &quot;plist&quot;)</span><br><span class="line">        let data = NSData.init(contentsOfFile: returnData!)</span><br><span class="line">        var str =  NSString(data:data! as Data, encoding: String.Encoding.utf8.rawValue)! as String</span><br><span class="line">        let homeDic=NSHomeDirectory().appending(&quot;/ProjectPackage/eo&quot;) as String</span><br><span class="line">        let fileName:String=homeDic.appending(&quot;/&quot;+&quot;ExportOptions&quot;+&quot;.plist&quot;)</span><br><span class="line">        data!.write(toFile: fileName, atomically: true)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Save-task"><a href="#Save-task" class="headerlink" title="Save task"></a>Save task</h2><p>When we add a new task, we don’t want to configure it again. So we save it as template.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">func saveCurrentTable()&#123;</span><br><span class="line">        let saveDic=readFromCurrentTable();</span><br><span class="line">        let taskS=saveDic.object(forKey: &quot;taskName&quot;) as! String</span><br><span class="line">        if taskS.count&lt;=0 &#123;</span><br><span class="line">            showNotice(str: &quot;give a taskName please&quot;, suc: false)</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        showNotice(str: &quot;create【&quot;+taskS+&quot;】success&quot;, suc: true)</span><br><span class="line"></span><br><span class="line">        let homeDic=NSHomeDirectory().appending(&quot;/ProjectPackage/task&quot;) as String</span><br><span class="line">        let fileName:String=homeDic.appending(&quot;/&quot;+taskS+&quot;.plist&quot;)</span><br><span class="line"></span><br><span class="line">        saveDic.write(toFile: fileName, atomically: true)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>The task we save as plist file, it looks as:<br><img src="https://img-blog.csdnimg.cn/20190411112148761.png" width="640"></p>
+<h2 id="Read-task"><a href="#Read-task" class="headerlink" title="Read task"></a>Read task</h2><p>We can recover tasks we saved in documents we create before:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">func read() -&gt;[NSDictionary]? &#123;</span><br><span class="line">        let homeDic=NSHomeDirectory().appending(&quot;/ProjectPackage/task&quot;) as String</span><br><span class="line">        print(homeDic)</span><br><span class="line"></span><br><span class="line">        var taskList:[NSDictionary]=[]</span><br><span class="line"></span><br><span class="line">        let fileM=FileManager.default</span><br><span class="line">        do &#123;</span><br><span class="line">            let cintents1 = try fileM.contentsOfDirectory(atPath: homeDic)</span><br><span class="line">//            print(&quot;cintents:\(cintents1.count)\n&quot;)</span><br><span class="line"></span><br><span class="line">            for name in cintents1 &#123;</span><br><span class="line">                let fileName:String=homeDic.appending(&quot;/&quot;+name)</span><br><span class="line">                let taskDic=readFileName(fileName: fileName)</span><br><span class="line">                if (taskDic) != nil&#123;</span><br><span class="line">                    taskList.insert(taskDic!, at: 0)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        return taskList</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Task-board"><a href="#Task-board" class="headerlink" title="Task board"></a>Task board</h1><p>Task board is used to manage many different tasks. So we add a tableview in task board to display and let user select a task they want to use.<br><img src="https://img-blog.csdnimg.cn/20190411112415508.png" width="640"></p>
+<p>If you are an iOS developer, you must know how to create tableview. In macOS, it be named as <strong><em>NSTableView</em></strong>. And we will add a <strong><em>NSTableView</em></strong> to <strong><em>NSView</em></strong>.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">func addBoard()&#123;</span><br><span class="line"></span><br><span class="line">        board=NSView.init()</span><br><span class="line">        board.frame=self.view.visibleRect</span><br><span class="line">        board.wantsLayer=true</span><br><span class="line">        self.view.addSubview(board)</span><br><span class="line"></span><br><span class="line">        let colorBoard:NSView=NSView.init()</span><br><span class="line">        colorBoard.frame=board.visibleRect</span><br><span class="line">        colorBoard.wantsLayer=true</span><br><span class="line">        colorBoard.layer?.backgroundColor=NSColor.black.cgColor</span><br><span class="line">        colorBoard.alphaValue=0.5;</span><br><span class="line">        board.addSubview(colorBoard)</span><br><span class="line"></span><br><span class="line">        let cancelBt:NSButton=NSButton.init()</span><br><span class="line">        cancelBt.frame=board.visibleRect</span><br><span class="line">        cancelBt.alphaValue=0;</span><br><span class="line">        cancelBt.action = #selector(cancelBtTapped(bt:))</span><br><span class="line">        board.addSubview(cancelBt)</span><br><span class="line"></span><br><span class="line">        let leftBoard:NSView=NSView.init()</span><br><span class="line">        leftBoard.frame=NSRect(x:0,y:0,width:300,height:board.visibleRect.height)</span><br><span class="line">        leftBoard.wantsLayer=true</span><br><span class="line">        leftBoard.layer?.backgroundColor=NSColor.white.cgColor</span><br><span class="line">        board.addSubview(leftBoard)</span><br><span class="line"></span><br><span class="line">        dataSource = read()</span><br><span class="line"></span><br><span class="line">        scrollView.frame=NSRect(x:leftBoard.frame.origin.x,y:leftBoard.frame.origin.y+40,width:leftBoard.frame.size.width,height:leftBoard.frame.size.height-40)</span><br><span class="line">//        tableView.delegate=(self as NSTableViewDelegate)</span><br><span class="line">//        tableView.dataSource=(self as NSTableViewDataSource)</span><br><span class="line">        board.addSubview(scrollView)</span><br><span class="line"></span><br><span class="line">        let addBt:NSButton=NSButton.init()</span><br><span class="line">        addBt.frame=NSRect(x:0,y:0,width:100,height:40)</span><br><span class="line">        let str=&quot;add task&quot; as String</span><br><span class="line">        let attrTitle = NSMutableAttributedString.init(string: str)</span><br><span class="line">        let titleRange = NSMakeRange(0, str.count)</span><br><span class="line">        attrTitle.addAttributes([NSAttributedString.Key.foregroundColor: NSColor.black], range: titleRange)</span><br><span class="line"></span><br><span class="line">        addBt.attributedTitle=attrTitle</span><br><span class="line">        addBt.bezelStyle=NSButton.BezelStyle.regularSquare</span><br><span class="line">        addBt.action = #selector(addBtTapped(bt:))</span><br><span class="line">        board.addSubview(addBt)</span><br><span class="line"></span><br><span class="line">        tableView.reloadData()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>Also we need to implement some Delegate and DataSource:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">//MARK: - NSTableViewDataSource</span><br><span class="line">extension ViewController: NSTableViewDataSource&#123;</span><br><span class="line">    func numberOfRows(in tableView: NSTableView) -&gt; Int &#123;</span><br><span class="line">        guard let dataSource = dataSource else &#123;</span><br><span class="line">            return 0</span><br><span class="line">        &#125;</span><br><span class="line">        return dataSource.count</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -&gt; NSView? &#123;</span><br><span class="line">        let rowView = tableView.rowView(atRow: row, makeIfNecessary: false)</span><br><span class="line">        rowView?.isEmphasized = false</span><br><span class="line">        let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: &quot;CustomCell&quot;), owner: self) as! CustomCell</span><br><span class="line">        let item = dataSource?[row]</span><br><span class="line">        cell.row=row</span><br><span class="line">        if row==selectIndex &#123;</span><br><span class="line">            cell.selected=true;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            cell.selected=false;</span><br><span class="line">        &#125;</span><br><span class="line">        cell.setContent(item: item)</span><br><span class="line">        cell.callBackClosureFunction &#123; (name, index) in</span><br><span class="line">            print(&quot;name:\(name), index:\(index)&quot;)</span><br><span class="line"></span><br><span class="line">            //delete from sandbox</span><br><span class="line">            self.deleteAtIndex(index: index)</span><br><span class="line"></span><br><span class="line">            self.dataSource?.remove(at: index)</span><br><span class="line">            self.tableView.reloadData()</span><br><span class="line">        &#125;</span><br><span class="line">        return cell</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -&gt; CGFloat &#123;</span><br><span class="line">        let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: &quot;CustomCell&quot;), owner: self) as! CustomCell</span><br><span class="line">        let item = dataSource?[row]</span><br><span class="line">        cell.setContent(item: item)</span><br><span class="line"></span><br><span class="line">        if tableView.tableColumns.count&gt;0 &#123;</span><br><span class="line">            let tc = tableView.tableColumns[0]</span><br><span class="line">            let gap: CGFloat = 10 //width outside of label</span><br><span class="line">            cell.titleLabel.preferredMaxLayoutWidth = tc.width - gap</span><br><span class="line">            cell.detailLabel.preferredMaxLayoutWidth = tc.width - gap</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return cell.fittingSize.height</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//MARK: - NSTableViewDelegate</span><br><span class="line">extension ViewController: NSTableViewDelegate&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -&gt; Bool &#123;</span><br><span class="line">        print(&quot;click at row \(row)&quot;)</span><br><span class="line">        selectIndex=row</span><br><span class="line">        displayCurrentTable()</span><br><span class="line">        tableView.reloadData()</span><br><span class="line">        return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    func tableViewSelectionDidChange(_ notification: Notification) &#123;</span><br><span class="line">        let itemsSelected = tableView.selectedRowIndexes.count</span><br><span class="line"></span><br><span class="line">        if itemsSelected &gt; 0 &#123;</span><br><span class="line">            let row = tableView.selectedRow</span><br><span class="line">            tableView.deselectRow(row)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Auxiliary-function"><a href="#Auxiliary-function" class="headerlink" title="Auxiliary function"></a>Auxiliary function</h1><h2 id="func-alt-altStr-String"><a href="#func-alt-altStr-String" class="headerlink" title="func alt(altStr:String)"></a>func alt(altStr:String)</h2><p>Give a alt view to show notice:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func alt(altStr:String) &#123;</span><br><span class="line">        let alert:NSAlert=NSAlert.init()</span><br><span class="line">        alert.addButton(withTitle: &quot;OK&quot;)</span><br><span class="line">        alert.messageText=altStr</span><br><span class="line">        alert.beginSheetModal(for: self.view.window!) &#123; (result) in</span><br><span class="line">            print(result.rawValue)</span><br><span class="line">            if result.rawValue==1000 &#123;</span><br><span class="line">                print(&quot;ok&quot;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="func-showNotice-str-String-suc-Bool"><a href="#func-showNotice-str-String-suc-Bool" class="headerlink" title="func showNotice(str:String, suc:Bool)"></a>func showNotice(str:String, suc:Bool)</h2><p>This notice will show in log board, and we use green and red color to separate error and success logs:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func showNotice(str:String, suc:Bool) &#123;</span><br><span class="line">        self.logTextField.stringValue=str</span><br><span class="line">        if suc &#123;</span><br><span class="line">            let color: NSColor = NSColor.init(red: 18.0/255.0, green: 189.0/255.0, blue: 0, alpha: 1.0);</span><br><span class="line">            self.logTextField.textColor=color</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            let color: NSColor = NSColor.init(red: 150.0/255.0, green: 0, blue: 0, alpha: 1.0);</span><br><span class="line">            self.logTextField.textColor=color</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IBAction-func-courseTapped-sender-Any"><a href="#IBAction-func-courseTapped-sender-Any" class="headerlink" title="@IBAction func courseTapped(_ sender: Any)"></a>@IBAction func courseTapped(_ sender: Any)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@IBAction func courseTapped(_ sender: Any) &#123;</span><br><span class="line">        let returnData = Bundle.main.path(forResource: &quot;README&quot;, ofType: &quot;md&quot;)</span><br><span class="line">        let data = NSData.init(contentsOfFile: returnData!)</span><br><span class="line">        let str =  NSString(data:data! as Data, encoding: String.Encoding.utf8.rawValue)! as String</span><br><span class="line">        self.showInfoTextView.string=str</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h1><p>Remember do not open App Sandbox in capabilities. If you do so, you cannot get local path to execute shell script. But if you want to let your app pass AppStore, you should open it.<br><img src="https://img-blog.csdnimg.cn/20190411121218982.png" width="500"></p>
+<p>The first time open .dmg you will get a warning that you cannot open an app from un-know developer. So you should goto <strong><em>security and safety</em></strong> to grant authorization.</p>
+<h1 id="Demonstration"><a href="#Demonstration" class="headerlink" title="Demonstration"></a>Demonstration</h1><p>When finish set template, we click start:<br><img src="https://img-blog.csdnimg.cn/20190411113342596.png" width="600"></p>
+<p>Then we get .ipa file. Also I append date to file name to tell different package file, otherwise it will overlap old file.<br><img src="https://img-blog.csdnimg.cn/20190411113528242.png" width="280"></p>
+<h1 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h1><p>You can get all codes in <a href="https://github.com/gwh111/testcocoappswift" target="_blank" rel="noopener">https://github.com/gwh111/testcocoappswift</a><br>I also add <strong><em>PackageMachine.dmg</em></strong> file for using directly.</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/macos/" rel="tag"># macos</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/11/25/Privacy policy/" rel="next" title="Privacy policy">
+                  <i class="fa fa-chevron-left"></i> Privacy policy
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/11/bench-ios/" rel="prev" title="bench_ios">
+                  bench_ios <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="gitalk-container"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Why-build-this-app"><span class="nav-number">1.</span> <span class="nav-text">Why build this app?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Build-the-app"><span class="nav-number">2.</span> <span class="nav-text">Build the app</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-project"><span class="nav-number">2.1.</span> <span class="nav-text">Create project</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Draw-views-in-Main-storyboard"><span class="nav-number">2.2.</span> <span class="nav-text">Draw views in Main.storyboard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#State-IBOutlet"><span class="nav-number">2.3.</span> <span class="nav-text">State IBOutlet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Interaction-method"><span class="nav-number">2.4.</span> <span class="nav-text">Interaction method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start（Run-shell-task）"><span class="nav-number">2.5.</span> <span class="nav-text">Start（Run shell task）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Monitor-task-output"><span class="nav-number">2.6.</span> <span class="nav-text">Monitor task output</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shell-script"><span class="nav-number">3.</span> <span class="nav-text">Shell script</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Learn-write-some-shell-script"><span class="nav-number">3.1.</span> <span class="nav-text">Learn write some shell script</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-script-in-package-machine"><span class="nav-number">3.2.</span> <span class="nav-text">shell script in package machine</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Read-and-Save"><span class="nav-number">4.</span> <span class="nav-text">Read and Save</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-store-documents-when-launch"><span class="nav-number">4.1.</span> <span class="nav-text">Create store documents when launch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Save-task"><span class="nav-number">4.2.</span> <span class="nav-text">Save task</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Read-task"><span class="nav-number">4.3.</span> <span class="nav-text">Read task</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task-board"><span class="nav-number">5.</span> <span class="nav-text">Task board</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Auxiliary-function"><span class="nav-number">6.</span> <span class="nav-text">Auxiliary function</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#func-alt-altStr-String"><span class="nav-number">6.1.</span> <span class="nav-text">func alt(altStr:String)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#func-showNotice-str-String-suc-Bool"><span class="nav-number">6.2.</span> <span class="nav-text">func showNotice(str:String, suc:Bool)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IBAction-func-courseTapped-sender-Any"><span class="nav-number">6.3.</span> <span class="nav-text">@IBAction func courseTapped(_ sender: Any)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tips"><span class="nav-number">7.</span> <span class="nav-text">Tips</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Demonstration"><span class="nav-number">8.</span> <span class="nav-text">Demonstration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Link"><span class="nav-number">9.</span> <span class="nav-text">Link</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">GaoWuhang</p>
+  <div class="site-description" itemprop="description">你的名字</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GaoWuhang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">
+      
+    主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '17f5c4ab012abe0276b9',
+      clientSecret: '05d29fb336d73a5d810843a167ad478c3e663358',
+      repo: 'BlogDiscuss',
+      owner: 'gwh111',
+      admin: ['gwh111'],
+      id: 'a95ee46926b475f0e4a62eb68d96ea49',
+        language: window.navigator.language || window.navigator.userLanguage,
+      
+      distractionFreeMode: 'true'
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+</script>
+
+</body>
+</html>
